@@ -2,13 +2,14 @@
 This repository is for a smart vending machine for Project for ET0735, DevOps for AIoT, Semester 1 2023.
 
 ## Project Overview
-![vending machine](https://github.com/ET0735-DevOps-AIoT-AY2410/DCPE_2A_05_Group2/assets/145007633/26785512-8b75-4385-a1d2-187b447be92d)
+<img src="https://github.com/ET0735-DevOps-AIoT-AY2410/DCPE_2A_05_Group2/assets/145007633/26785512-8b75-4385-a1d2-187b447be92d" alt="vending machine UI" width="300" height="400">
 
 The Smart Drink Vending Machine project aims to design and implement an advanced vending machine system that enhances user convenience, security, and operational efficiency. This project integrates modern technologies to provide a seamless experience for both users and service personnel.
 
 ## Features
 
-![vending machine UI](https://github.com/ET0735-DevOps-AIoT-AY2410/DCPE_2A_05_Group2/assets/145007633/2f869fc4-44cd-4f6c-9374-58c4b6c227c8)
+<img src="https://github.com/ET0735-DevOps-AIoT-AY2410/DCPE_2A_05_Group2/assets/145007633/2f869fc4-44cd-4f6c-9374-58c4b6c227c8" alt="vending machine UI" width="300">
+
 
 ### User Interaction and Payment System
 - *User Interface*: Numeric keypad and LCD screen for selecting drinks.
