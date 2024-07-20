@@ -22,8 +22,8 @@ def main():
     idle_timer = time.time()
     idle_mode = False
 
-    lcd.lcd_display_string("1) Order drinks", 1)
-    lcd.lcd_display_string("2) Collect drinks", 2)
+    lcd.lcd_display_string("1)Order drinks", 1)
+    lcd.lcd_display_string("2)Collect drinks", 2)
 
     while True:
         if not shared_keypad_queue.empty():
@@ -43,8 +43,8 @@ def main():
                             break
                         elif digit == '#':  # Return to main menu
                             lcd.lcd_clear()
-                            lcd.lcd_display_string("1) Order drinks", 1)
-                            lcd.lcd_display_string("2) Collect drinks", 2)
+                            lcd.lcd_display_string("1)Order drinks", 1)
+                            lcd.lcd_display_string("2)Collect drinks", 2)
                             break
                         drink_code += str(digit)
                         lcd.lcd_display_string(drink_code, 2)
@@ -75,8 +75,8 @@ def main():
                         idle_mode = False
                         lcd.backlight(1)  # Turn on backlight
                         lcd.lcd_clear()
-                        lcd.lcd_display_string("1) Order drinks", 1)
-                        lcd.lcd_display_string("2) Collect drinks", 2)
+                        lcd.lcd_display_string("1)Order drinks", 1)
+                        lcd.lcd_display_string("2)Collect drinks", 2)
                     time.sleep(1)
         time.sleep(0.1)  # Wait for 100ms before checking again
 
