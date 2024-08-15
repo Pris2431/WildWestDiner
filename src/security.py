@@ -7,10 +7,8 @@ from hal import hal_keypad as keypad
 from hal import hal_buzzer as buzzer
 from hal import hal_input_switch as slide_switch
 
-# Queue to store sequence of keypad presses
 shared_keypad_queue = queue.Queue()
 
-# Callback function invoked when any key on keypad is pressed
 def key_pressed(key):
     shared_keypad_queue.put(key)
 
@@ -23,9 +21,8 @@ def handle_security_breach(lcd, buzzer):
     lcd.lcd_clear()
     lcd.lcd_display_string("Security Breach", 1)
     
-    buzzer.beep(0.5, 0.5, 50)
+    buzzer.beep(0.5, 0.5, 2)
 
-    # Move the servo once during the security breach
     servo.set_servo_position(20)
     time.sleep(1)
     servo.set_servo_position(80)
@@ -37,7 +34,7 @@ def handle_security_breach(lcd, buzzer):
     while True:
         if not shared_keypad_queue.empty():
             digit = shared_keypad_queue.get()
-            if digit == '*':  # Confirm the code
+            if digit == '*': 
                 if entered_code == "387":
                     buzzer.beep(0, 0, 0) 
                     lcd.lcd_clear()
