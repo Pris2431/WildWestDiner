@@ -12,13 +12,17 @@
             padding: 0;
             background-color: #f0f0f0;
             color: #333;
+            
         }
         .hero-section {
             .hero-section {
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 35px 0;
+            padding: 0;
+            
+            margin: 0;
+}
         }
         .image-container {
             background-color: #12372a;
@@ -316,6 +320,37 @@
                 height: 128
             });
         }
+
+        
+        function generateBarcode() {
+            const barcodeElement = document.createElement('svg');
+            JsBarcode(barcodeElement, 'dispensing drink', {
+                format: "CODE128",
+                width: 2,
+                height: 100,
+                displayValue: true
+            });
+            document.getElementById('qrCode').appendChild(barcodeElement);
+        }
+
+        function showAlert() {
+            alert('Payment successful, please collect drink.');
+        }
+        
+document.getElementById('AlipayButton').addEventListener('click', () => {
+    
+    document.getElementById('qrCode').innerHTML = '<img src="alipay image.jpg" alt="Alipay QR Code" width="128" height="128">';
+    generateBarcode();
+    showAlert();
+});
+
+
+document.getElementById('PaynowButton').addEventListener('click', () => {
+    document.getElementById('qrCode').innerHTML = '<img src="paynow image.jpg" alt="PayNow QR Code" width="128" height="128">';
+    generateBarcode();
+    showAlert();
+});
+
 
         const creditCardDetails = [
     { name: "Muhammad bin Rahman", cardNumber: "8053729610472560", cvv: "222", expiryDate: "2027-11" },
