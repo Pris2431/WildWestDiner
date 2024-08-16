@@ -12,35 +12,41 @@
             padding: 0;
             background-color: #f0f0f0;
             color: #333;
+            overflow-x: hidden; /* Prevent horizontal scrolling */
         }
         .hero-section {
+            .hero-section {
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 35px 0;
+            padding: 0;
+            margin: 0;
+}
         }
         .image-container {
             background-color: #12372a;
-            display: flex;
             width: 100%;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 12px;
+            overflow: hidden; /* Ensure that images don’t overflow the container */
+            position: relative;
         }
+        
         .hero-image {
-            aspect-ratio: 1.61;
+            width: 100%;
+            height: auto;
+            max-height: 100vh; /* Limit the height to viewport height */
             object-fit: cover;
             object-position: center;
-            width: 100%;
-            z-index: 10;
-            margin-top: -35px;
         }
         .menu-container {
             display: flex;
             justify-content: space-between;
             padding: 20px;
             flex-wrap: wrap;
+        }
+            @media (max-width: 991px) {
+        .hero-image {
+            max-height: 70vh; 
+        }
         }
         .menu {
             flex: 2;
@@ -151,7 +157,7 @@
             font-size: 28px;
             font-weight: bold;
         }
-        .close:hover,
+        .close:hover, 
         .close:focus {
             color: black;
             text-decoration: none;
@@ -185,8 +191,9 @@
 <body>
     <section class="hero-section">
         <div class="image-container">
-            <img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/36f1831b9b008ecff5d4b2322306b787a07ae5632934673a244342e23217372a?apiKey=5655256161ce4390aeb3d8468ac9eaa4&" class="hero-image" alt="Hero image" />
+            <img loading="lazy" src="landing page.png" class="hero-image" alt="Landing page image" />
         </div>
+        <img loading="lazy" src="menu.png" class="hero-image" alt="Menu image" />
     </section>
 
     <div class="menu-container">
@@ -198,6 +205,9 @@
             <div class="payment-options">
                 <button class="payment-button" id="creditcardButton">Pay with Credit/Debit Card</button>
                 <button class="payment-button" id="qrButton">Pay with QR</button>
+                <button class="payment-button" id="AlipayButton">Pay with Alipay</button>
+                <button class="payment-button" id="PaynowButton">Pay with PayNow</button>
+                
             </div>
             <div id="qrCode"></div>
         </div>
@@ -309,6 +319,17 @@
                 height: 128
             });
         }
+
+        
+
+document.getElementById('AlipayButton').addEventListener('click', () => {
+    document.getElementById('qrCode').innerHTML = '<img src="e:\\alipay image.jpg" alt="Alipay QR Code" width="128" height="128">';
+});
+
+document.getElementById('PaynowButton').addEventListener('click', () => {
+    document.getElementById('qrCode').innerHTML = '<img src="e:\\paynow image.jpg" alt="PayNow QR Code" width="128" height="128">';
+});
+
 
         const creditCardDetails = [
     { name: "Muhammad bin Rahman", cardNumber: "8053729610472560", cvv: "222", expiryDate: "2027-11" },

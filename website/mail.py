@@ -9,8 +9,8 @@ app = Flask(__name__)
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 587
 app.config['MAIL_USE_TLS'] = True
-app.config['MAIL_USERNAME'] = 'your_email@gmail.com'  # Your email
-app.config['MAIL_PASSWORD'] = 'your_email_password'   # Your email password
+app.config['MAIL_USERNAME'] = 'priscillaloi2020@gmail.com'  # Your email
+app.config['MAIL_PASSWORD'] = 'Pris2020'   # Your email password
 app.config['MAIL_DEFAULT_SENDER'] = 'your_email@gmail.com'
 
 mail = Mail(app)
@@ -37,7 +37,7 @@ def check_stock():
 
 def send_email(low_stock_items):
     msg = Message('Low Stock Alert',
-                  recipients=['pris.biz24315@gmail.com'])
+                  recipients=['priscillaloi2020@gmail.com'])
     msg.body = f"Dear Smart Vending Machine Technician,\n\nThe following drinks are low on stock: {low_stock_items}.\nPlease restock the machine."
     mail.send(msg)
 
