@@ -7,5 +7,8 @@ def test_creditcard () :
         } else {
             return false
         }
+<<<<<<< HEAD
     }
+=======
+>>>>>>> Priscilla
     }
