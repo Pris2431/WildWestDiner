@@ -44,6 +44,12 @@ The Smart Vending Machine project utilizes Python for the vending machine progra
 - *Servo*: Dispensing mechanism.
 - *RFID Reader*: Secure payment transactions.
 
+- ## Role allocation:
+Priscilla (Leader):  Full stack web development (front end: html, js, CSS, figma + backend Django)
+Yohann: Maintenance
+Keliang: Physical Code, Remote Code, Maintenance Code Security Code, Combined Code
+Kayshavv: figma design, Inventory (excel sheet)
+
 ## Additional Features
 
 - *Alarm System*: Triggers during break-ins.
