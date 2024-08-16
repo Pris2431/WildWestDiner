@@ -1,5 +1,5 @@
 # Smart Vending Machine Project for DevOps for AIoT
-This repository is for a smart vending machine for Project for ET0735, DevOps for AIoT, Semester 1 2023.
+This repository is for a smart vending machine for Project for ET0735, DevOps for AIoT, Semester 1 2024.
 
 ## Project Overview
 <img src="https://github.com/ET0735-DevOps-AIoT-AY2410/DCPE_2A_05_Group2/assets/145007633/26785512-8b75-4385-a1d2-187b447be92d" alt="vending machine UI" width="300" height="400">
