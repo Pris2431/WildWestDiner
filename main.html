@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Vending Machine</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+            color: #333;
+            
+        }
+        .hero-section {
+            .hero-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 0;
+            
+            margin: 0;
+}
+        }
+        .image-container {
+            background-color: #12372a;
+            width: 100%;
+            overflow: hidden; /* Ensure that images don’t overflow the container */
+            position: relative;
+        }
+        
+        .hero-image {
+            width: 100%;
+            height: auto;
+            max-height: 100vh; /* Limit the height to viewport height */
+            object-fit: cover;
+            object-position: center;
+        }
+        .menu-container {
+            display: flex;
+            justify-content: space-between;
+            padding: 20px;
+            flex-wrap: wrap;
+        }
+            @media (max-width: 991px) {
+        .hero-image {
+            max-height: 70vh; 
+        }
+        }
+        .menu {
+            flex: 2;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 20px;
+        }
+        .menu-item {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            padding: 20px;
+            text-align: center;
+            border-radius: 8px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .menu-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .menu-item button {
+            margin-top: 10px;
+            padding: 10px 20px;
+            background-color: #12372a;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .menu-item button:hover {
+            background-color: #0f2e24;
+        }
+        .cart {
+            flex: 1;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            padding: 20px;
+            margin-left: 20px;
+            border-radius: 8px;
+        }
+        .cart h2 {
+            margin-top: 0;
+        }
+        .payment-options {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+        }
+        .payment-button {
+            padding: 10px 20px;
+            background-color: #12372a;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .payment-button:hover {
+            background-color: #0f2e24;
+        }
+        #qrCode {
+            margin-top: 20px;
+            text-align: center;
+        }
+        @media (max-width: 991px) {
+            .image-container {
+                max-width: 100%;
+            }
+            .hero-image {
+                max-width: 100%;
+            }
+            .menu-container {
+                flex-direction: column;
+            }
+            .menu {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .cart {
+                margin-left: 0;
+                margin-top: 20px;
+            }
+        }
+        /* Modal styles */
+        .modal {
+            display: none; 
+            position: fixed; 
+            z-index: 1; 
+            left: 0;
+            top: 0;
+            width: 100%; 
+            height: 100%; 
+            overflow: auto; 
+            background-color: rgba(0,0,0,0.4); 
+            padding-top: 60px; 
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 400px;
+            border-radius: 8px;
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close:hover, 
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .modal-content form label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .modal-content form input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .modal-content form button {
+            padding: 10px 20px;
+            background-color: #12372a;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .modal-content form button:hover {
+            background-color: #0f2e24;
+        }
+    </style>
+</head>
+<body>
+    <section class="hero-section">
+        <div class="image-container">
+            <img loading="lazy" src="landing page.png" class="hero-image" alt="Landing page image" />
+        </div>
+        <img loading="lazy" src="menu.png" class="hero-image" alt="Menu image" />
+    </section>
+
+    <div class="menu-container">
+        <div class="menu" id="menu"></div>
+        <div class="cart" id="cart">
+            <h2>Cart</h2>
+            <ul id="cartItems"></ul>
+            <p>Total: $<span id="cartTotal">0.00</span></p>
+            <div class="payment-options">
+                <button class="payment-button" id="creditcardButton">Pay with Credit/Debit Card</button>
+                <button class="payment-button" id="qrButton">Pay with QR</button>
+                <button class="payment-button" id="AlipayButton">Pay with Alipay</button>
+                <button class="payment-button" id="PaynowButton">Pay with PayNow</button>
+                
+            </div>
+            <div id="qrCode"></div>
+        </div>
+    </div>
+
+    <!-- The Modal -->
+    <div id="cardModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Enter Card Details</h2>
+            <form id="cardForm">
+                <label for="cardName">Card Name:</label>
+                <input type="text" id="cardName" name="cardName" required>
+                <label for="cardNumber">Card Number:</label>
+                <input type="text" id="cardNumber" name="cardNumber" pattern="\d{16}" required>
+                <label for="cvv">CVV:</label>
+                <input type="text" id="cvv" name="cvv" pattern="\d{3}" required>
+                <label for="expiryDate">Expiry Date:</label>
+                <input type="month" id="expiryDate" name="expiryDate" required>
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script>
+        const menuItems = [
+            { name: '1. Cola', price: 1.50 },
+            { name: '2. Water', price: 1.00 },
+            { name: '3. Orange Juice', price: 2.00 },
+            { name: '4. Energy Drink', price: 2.50 },
+            { name: '5. Iced Tea', price: 1.75 },
+            { name: '6. Lemonade', price: 1.75 }
+        ];
+
+        const cart = [];
+        function renderMenu() {
+            const menuElement = document.getElementById('menu');
+            menuItems.forEach(item => {
+                const itemElement = document.createElement('div');
+                itemElement.className = 'menu-item';
+                itemElement.innerHTML = `
+                    <h3>${item.name}</h3>
+                    <p>$${item.price.toFixed(2)}</p>
+                    <button onclick="addToCart('${item.name}', ${item.price})">Add to Cart</button>
+                `;
+                menuElement.appendChild(itemElement);
+            });
+        }
+
+        function addToCart(name, price) {
+            const existingItem = cart.find(item => item.name === name);
+            if (existingItem) {
+                existingItem.quantity++;
+            } else {
+                cart.push({ name, price, quantity: 1 });
+            }
+            updateCart();
+        }
+
+        function removeFromCart(name) {
+            const itemIndex = cart.findIndex(item => item.name === name);
+            if (itemIndex !== -1) {
+                cart.splice(itemIndex, 1);
+            }
+            updateCart();
+        }
+
+        function changeQuantity(name, quantity) {
+            const item = cart.find(item => item.name === name);
+            if (item) {
+                item.quantity = quantity;
+                if (item.quantity <= 0) {
+                    removeFromCart(name);
+                } else {
+                    updateCart();
+                }
+            }
+        }
+
+        function updateCart() {
+            const cartItemsElement = document.getElementById('cartItems');
+            const cartTotalElement = document.getElementById('cartTotal');
+            
+            cartItemsElement.innerHTML = '';
+            let total = 0;
+
+            cart.forEach(item => {
+                const li = document.createElement('li');
+                li.innerHTML = `
+                    ${item.name} - $${item.price.toFixed(2)} x ${item.quantity}
+                    <button onclick="changeQuantity('${item.name}', ${item.quantity - 1})">-</button>
+                    <button onclick="changeQuantity('${item.name}', ${item.quantity + 1})">+</button>
+                    <button onclick="removeFromCart('${item.name}')">Remove</button>`;
+            
+                cartItemsElement.appendChild(li);
+                total += item.price * item.quantity;
+            });
+
+            cartTotalElement.textContent = total.toFixed(2);
+        }
+
+        function generateQRCode(data) {
+            const qrCodeElement = document.getElementById('qrCode');
+            qrCodeElement.innerHTML = '';
+            new QRCode(qrCodeElement, {
+                text: data,
+                width: 128,
+                height: 128
+            });
+        }
+
+        
+        function generateBarcode() {
+            const barcodeElement = document.createElement('svg');
+            JsBarcode(barcodeElement, 'dispensing drink', {
+                format: "CODE128",
+                width: 2,
+                height: 100,
+                displayValue: true
+            });
+            document.getElementById('qrCode').appendChild(barcodeElement);
+        }
+
+        function showAlert() {
+            alert('Payment successful, please collect drink.');
+        }
+        
+document.getElementById('AlipayButton').addEventListener('click', () => {
+    
+    document.getElementById('qrCode').innerHTML = '<img src="alipay image.jpg" alt="Alipay QR Code" width="128" height="128">';
+    generateBarcode();
+    showAlert();
+});
+
+
+document.getElementById('PaynowButton').addEventListener('click', () => {
+    document.getElementById('qrCode').innerHTML = '<img src="paynow image.jpg" alt="PayNow QR Code" width="128" height="128">';
+    generateBarcode();
+    showAlert();
+});
+
+
+        const creditCardDetails = [
+    { name: "Muhammad bin Rahman", cardNumber: "8053729610472560", cvv: "222", expiryDate: "2027-11" },
+    { name: "Firdaus bin Ismail", cardNumber: "1568902745610390", cvv: "241", expiryDate: "2027-10" },
+    { name: "Liang Wei Lim", cardNumber: "2894632015827340", cvv: "515", expiryDate: "2027-10" },
+    { name: "Wei Jie Ong", cardNumber: "4236981753098640", cvv: "550", expiryDate: "2028-05" },
+    { name: "Haris bin Mohd Aziz", cardNumber: "7358964120578960", cvv: "378", expiryDate: "2025-12" },
+    { name: "Faizal bin Ahmad", cardNumber: "9807261453892070", cvv: "633", expiryDate: "2028-03" },
+    { name: "Wei Ling Tan", cardNumber: "6547298031874620", cvv: "890", expiryDate: "2028-05" },
+    { name: "Hock Seng Lim", cardNumber: "9876543210987650", cvv: "671", expiryDate: "2027-11" },
+    { name: "Suresh Verma", cardNumber: "5678901234567890", cvv: "669", expiryDate: "2025-07" },
+    { name: "Ravi Iyer", cardNumber: "3456789012345670", cvv: "491", expiryDate: "2028-03" },
+    { name: "Mei Ling Ng", cardNumber: "4567890123456780", cvv: "774", expiryDate: "2025-12" },
+    { name: "Karthik Ranganathan", cardNumber: "2345678901234560", cvv: "245", expiryDate: "2024-11" },
+    { name: "Hui Min Tay", cardNumber: "6789012345678900", cvv: "199", expiryDate: "2027-10" },
+    { name: "Hafizah binti Zainal", cardNumber: "7256391840371820", cvv: "891", expiryDate: "2027-11" },
+    { name: "Norazura binti Mohd Saleh", cardNumber: "2059614783249650", cvv: "986", expiryDate: "2025-12" },
+    { name: "Li Hui Tay", cardNumber: "8491263057814230", cvv: "188", expiryDate: "2027-10" },
+    { name: "Cheng Huat Tan", cardNumber: "5189372065748290", cvv: "156", expiryDate: "2025-07" },
+    { name: "Swati Menon", cardNumber: "7361820495632870", cvv: "900", expiryDate: "2027-11" },
+    { name: "Boon Hock Ong", cardNumber: "4297168350725180", cvv: "259", expiryDate: "2029-12" },
+    { name: "Arjun Bhatia", cardNumber: "6374152893047610", cvv: "355", expiryDate: "2029-10" },
+    { name: "Chee Keong Ng", cardNumber: "1839047625379180", cvv: "906", expiryDate: "2025-12" },
+    { name: "Siti Zulaikha binti Mohd Ali", cardNumber: "9827456310275840", cvv: "337", expiryDate: "2028-05" },
+    { name: "Adrian Wong", cardNumber: "2758639417028530", cvv: "156", expiryDate: "2024-11" },
+    { name: "Kok Leong Goh", cardNumber: "7654321098765430", cvv: "189", expiryDate: "2029-01" },
+    { name: "Li Fang Tan", cardNumber: "6543210987654320", cvv: "659", expiryDate: "2025-12" },
+    { name: "Pris", cardNumber: "1234567890123450", cvv: "123", expiryDate: "2024-11" }
+];
+
+        function validateCardDetails(cardName, cardNumber, cvv, expiryDate) {
+            return creditCardDetails.some(card => 
+                card.name === cardName &&
+                card.cardNumber === cardNumber &&
+                card.cvv === cvv &&
+                card.expiryDate === expiryDate
+            );
+        }
+
+        // Get the modal
+        var modal = document.getElementById("cardModal");
+
+        // Get the button that opens the modal
+        var btn = document.getElementById("creditcardButton");
+
+        // Get the <span> element that closes the modal
+        var span = document.getElementsByClassName("close")[0];
+
+        // When the user clicks the button, open the modal 
+        btn.onclick = function() {
+            modal.style.display = "block";
+        }
+
+        // When the user clicks on <span> (x), close the modal
+        span.onclick = function() {
+            modal.style.display = "none";
+        }
+
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+
+        // Handle the form submission
+        document.getElementById('cardForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const cardName = document.getElementById('cardName').value;
+            const cardNumber = document.getElementById('cardNumber').value;
+            const cvv = document.getElementById('cvv').value;
+            const expiryDate = document.getElementById('expiryDate').value;
+            
+            if (validateCardDetails(cardName, cardNumber, cvv, expiryDate)) {
+                alert('Payment successful. Dispensing drink.');
+                modal.style.display = "none";
+                clearCart();
+                generateQRCode('Payment successful. Dispensing drink...');
+            } else {
+                alert('Payment unsuccessful. Please key in correct details.');
+            }
+        });
+
+        document.getElementById('qrButton').addEventListener('click', () => {
+            const total = parseFloat(document.getElementById('cartTotal').textContent);
+            const qrData = `Total cost: $${total.toFixed(2)}\n Proceed to payment.`;
+            generateQRCode(qrData);
+        });
+
+        function clearCart() {
+            cart.length = 0;
+            updateCart();
+        }
+        renderMenu();
+    </script>
+</body>
+</html>
