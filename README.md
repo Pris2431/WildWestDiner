@@ -1,4 +1,7 @@
 # WildWestDiner - Interactive Menu System
+![Screenshot 2025-01-03 153422](https://github.com/user-attachments/assets/f3ab6ee4-1589-4ebe-9057-4d194ee1cf8c)
+
+https://github.com/user-attachments/assets/59180b3f-2b58-4a8f-a9a5-4ffa627432b7
 
 ## Overview
 WildWestDiner's Interactive Menu System is a web-based restaurant ordering platform that allows customers to browse menu items, add them to cart, and complete payments through multiple payment methods. The system features a responsive design that works across desktop and mobile devices.
