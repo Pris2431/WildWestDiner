@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WildWestDiner - Menu</title>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f0f0f0;
+            color: #333;
+        }
+
+        .menu-section {
+            margin: 20px 0;
+        }
+
+        .section-title {
+            color: #12372A;
+            font-size: 24px;
+            margin-bottom: 15px;
+            padding-bottom: 5px;
+            border-bottom: 2px solid #12372A;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .menu-item {
+            background-color: #12372A;
+            border-radius: 10px;
+            overflow: hidden;
+            color: white;
+            transition: transform 0.3s ease;
+        }
+
+        .menu-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .menu-item img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .menu-item-content {
+            padding: 15px;
+        }
+
+        .menu-item-title {
+            font-size: 18px;
+            margin: 0 0 10px 0;
+        }
+
+        .menu-item-price {
+            font-size: 16px;
+            margin: 0 0 10px 0;
+        }
+
+        .add-to-cart {
+            background-color: transparent;
+            border: 2px solid white;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .add-to-cart:hover {
+            background-color: white;
+            color: #12372A;
+        }
+
+        .cart {
+            position: fixed;
+            right: 20px;
+            top: 20px;
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            min-width: 300px;
+        }
+
+        @media (max-width: 768px) {
+            .menu-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .cart {
+                position: static;
+                margin-top: 20px;
+                width: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="menu-section" id="mains">
+        <h2 class="section-title">MAINS</h2>
+        <div class="menu-grid" id="mainsGrid"></div>
+    </div>
+
+    <div class="menu-section" id="appetizers">
+        <h2 class="section-title">APPETIZERS</h2>
+        <div class="menu-grid" id="appetizersGrid"></div>
+    </div>
+
+    <div class="menu-section" id="desserts">
+        <h2 class="section-title">DESSERTS</h2>
+        <div class="menu-grid" id="dessertsGrid"></div>
+    </div>
+
+    <div class="menu-container">
+        <div class="menu" id="menu"></div>
+        <div class="cart" id="cart">
+            <h2>Cart</h2>
+            <ul id="cartItems"></ul>
+            <p>Total: $<span id="cartTotal">0.00</span></p>
+            <div class="payment-options">
+                <button class="payment-button" id="creditcardButton">Pay with Credit/Debit Card</button>
+                <button class="payment-button" id="qrButton">Pay with QR</button>
+                <button class="payment-button" id="AlipayButton">Pay with Alipay</button>
+                <button class="payment-button" id="PaynowButton">Pay with PayNow</button>
+                
+            </div>
+            <div id="qrCode"></div>
+        </div>
+    </div>
+    <div id="cardModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Enter Card Details</h2>
+            <form id="cardForm">
+                <label for="cardName">Card Name:</label>
+                <input type="text" id="cardName" name="cardName" required>
+                <label for="cardNumber">Card Number:</label>
+                <input type="text" id="cardNumber" name="cardNumber" pattern="\d{16}" required>
+                <label for="cvv">CVV:</label>
+                <input type="text" id="cvv" name="cvv" pattern="\d{3}" required>
+                <label for="expiryDate">Expiry Date:</label>
+                <input type="month" id="expiryDate" name="expiryDate" required>
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const menuItems = {
+            mains: [
+                { name: 'Sizzling Steak', description: 'Premium cut steak with signature marinade', price: 32.95, image: '/api/placeholder/300/200' },
+                { name: 'Grilled Chicken', description: 'Herb-marinated chicken with special sauce', price: 19.95, image: '/api/placeholder/300/200' },
+                { name: 'Beef Burger', description: 'Classic beef burger with cheese and sauce', price: 16.95, image: '/api/placeholder/300/200' },
+                { name: 'Spaghetti Bolognese', description: 'Classic pasta with beef ragu', price: 17.95, image: '/api/placeholder/300/200' },
+                { name: 'Fish and Chips', description: 'Crispy fish fillet with rustic chips', price: 18.95, image: '/api/placeholder/300/200' },
+                { name: 'Lamb Chop', description: 'Grilled lamb chop with fresh vegetables', price: 28.95, image: '/api/placeholder/300/200' }
+            ],
+            appetizers: [
+                { name: 'Stuffed Mushrooms', description: 'Fresh mushrooms with herbs and cream', price: 9.95, image: '/api/placeholder/300/200' },
+                { name: 'Crispy Calamari', description: 'Fresh squid rings with tartar sauce', price: 10.95, image: '/api/placeholder/300/200' },
+                { name: 'Classic Bruschetta', description: 'Toasted bread with tomatoes and basil', price: 7.95, image: '/api/placeholder/300/200' },
+                { name: 'Buffalo Wings', description: 'Spicy wings with blue cheese dip', price: 12.95, image: '/api/placeholder/300/200' },
+                { name: 'Cheese Platter', description: 'Selection of fine cheeses', price: 15.95, image: '/api/placeholder/300/200' },
+                { name: 'Spring Rolls', description: 'Vegetable spring rolls with sweet chili', price: 8.95, image: '/api/placeholder/300/200' }
+            ],
+            desserts: [
+                { name: 'Chocolate Lava Cake', description: 'Warm chocolate cake with vanilla ice cream', price: 8.95, image: '/api/placeholder/300/200' },
+                { name: 'New York Cheesecake', description: 'Classic cheesecake with berry compote', price: 7.95, image: '/api/placeholder/300/200' },
+                { name: 'Apple Pie', description: 'Warm apple pie with a flaky crust', price: 6.95, image: '/api/placeholder/300/200' }
+            ]
+        };
+
+        const cart = [];
+
+        function renderMenuSection(section, items) {
+            const grid = document.getElementById(`${section}Grid`);
+            items.forEach(item => {
+                const itemElement = document.createElement('div');
+                itemElement.className = 'menu-item';
+                itemElement.innerHTML = `
+                    <img src="${item.image}" alt="${item.name}">
+                    <div class="menu-item-content">
+                        <h3 class="menu-item-title">${item.name}</h3>
+                        <p>${item.description}</p>
+                        <p class="menu-item-price">$${item.price.toFixed(2)}</p>
+                        <button class="add-to-cart" onclick="addToCart('${item.name}', ${item.price})">ADD TO CART</button>
+                    </div>
+                `;
+                grid.appendChild(itemElement);
+            });
+        }
+
+        function addToCart(name, price) {
+            const existingItem = cart.find(item => item.name === name);
+            if (existingItem) {
+                existingItem.quantity++;
+            } else {
+                cart.push({ name, price, quantity: 1 });
+            }
+            updateCart();
+        }
+
+        function updateCart() {
+            const cartItems = document.getElementById('cartItems');
+            const cartTotal = document.getElementById('cartTotal');
+            let total = 0;
+
+            cartItems.innerHTML = cart.map(item => {
+                total += item.price * item.quantity;
+                return `
+                    <div class="cart-item">
+                        <p>${item.name} x ${item.quantity} - $${(item.price * item.quantity).toFixed(2)}</p>
+                    </div>
+                `;
+            }).join('');
+
+            cartTotal.textContent = `Total: $${total.toFixed(2)}`;
+        }
+
+        // Initialize menu
+        renderMenuSection('mains', menuItems.mains);
+        renderMenuSection('appetizers', menuItems.appetizers);
+        renderMenuSection('desserts', menuItems.desserts);
+
+        // Checkout handler
+        document.getElementById('checkoutBtn').addEventListener('click', () => {
+            if (cart.length === 0) {
+                alert('Please add items to your cart first');
+                return;
+            }
+            alert('Thank you for your order!');
+            cart.length = 0;
+            updateCart();
+        });
+    </script>
+</body>
+</html>

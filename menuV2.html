@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Vending Machine</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <title>WildWestDiner - Menu</title>
+    <style>
+        :root {
+            --primary-color: #12372a;
+            --secondary-color: #0f2e24;
+            --text-color: #333;
+            --background-color: #12372a;
+            --card-background: #fff;
+            --border-radius: 8px;
+            --spacing: 1rem;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        .container {
+        display: flex;
+        width: 100%;
+        max-width: 1800px;
+        margin: 0 auto;
+        padding-top: 80px; /* Account for fixed header */
+        }
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--primary-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        /* Navigation Styles */
+        header {
+            background-color: var(--card-background);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+
+        /* Hero Section */
+        .hero-section {
+            width: 100%;
+            margin-bottom: 2rem;
+        }
+
+        .hero-image {
+            width: 100%;
+            height: auto;
+            max-height: 60vh;
+            object-fit: cover;
+        }
+
+        /* Menu Section */
+        .menu-section {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+        .menu-content {
+        width: 80%;
+        padding: 1rem;
+    }
+
+        .section-title {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: #fffffa;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .menu-item {
+            background: var(--card-background);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        .menu-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .menu-item img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .menu-item-content {
+            padding: 1.5rem;
+        }
+
+        .menu-item-title {
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .menu-item-price {
+            font-weight: 700;
+            color: var(--primary-color);
+            margin: 1rem 0;
+        }
+
+        .add-to-cart {
+            width: 100%;
+            padding: 0.75rem;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        /* Cart Styles */
+        .cart {
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            width: 350px;
+            background: var(--card-background);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            max-height: calc(100vh - 100px);
+            overflow-y: auto;
+        }
+        .cart {
+            width: 20%;
+            min-width: 300px;
+            position: fixed;
+            right: 0;
+            top: 80px; /* Align with header */
+            height: calc(100vh - 80px);
+            background: var(--card-background);
+            border-left: 1px solid #eee;
+            border-radius: 0;
+            overflow-y: auto;
+        }
+        /* make buttons on menu page the same */
+        .add-to-cart, .payment-button,.cart-controls , #EditOrderButton button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: var(--border-radius);
+            padding: 0.75rem 1rem;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: background-color 0.3s ease;
+        }
+
+        .add-to-cart:hover, .payment-button:hover, .cart-controls button:hover {
+        background-color: var(--secondary-color);
+        transform: translateY(-2px);
+        }
+        #cartItems {
+            list-style: none;
+            margin-bottom: 1rem;
+        }
+
+        #cartItems li {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.75rem 0;
+        border-bottom: 1px solid #eee;
+        }
+        #cartItems button {
+        padding: 0.25rem 0.5rem;
+        margin-left: 0.5rem;
+    }
+        .payment-options {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        .menu-section {
+        max-width: 100%;
+        margin: 2rem 0;
+        padding: 0 1rem;
+    }
+    #qrCode {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .payment-button {
+            padding: 0.75rem;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .payment-button:hover {
+            background-color: var(--secondary-color);
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1100;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+        }
+
+        .modal-content {
+            background-color: var(--card-background);
+            margin: 10% auto;
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            width: 90%;
+            max-width: 500px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+        .container {
+            flex-direction: column;
+    }
+        .menu-content {
+            width: 100%;
+            margin-bottom: 60vh; /* Space for cart */
+        }
+        
+        .cart {
+            width: 100%;
+            top: auto;
+            bottom: 0;
+            height: auto;
+            max-height: 60vh;
+        }
+             .payment-options {
+                grid-template-columns: 1fr;
+            } 
+        }
+
+        @media (max-width: 480px) {
+            .nav-links {
+                gap: 1rem;
+            }
+
+            .menu-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .modal-content {
+                width: 95%;
+                margin: 5% auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="#" class="logo">WildWestDiner</a>
+            <div class="nav-links">
+                <a href="#">Home</a>
+                <a href="#">About</a>
+                <a href="#">Staff Login</a>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container">
+        <div class="menu-content">
+            <section class="hero-section">
+                <div class="image-container">
+                    <img loading="lazy" src="landing page.png" class="hero-image" alt="Landing page image" />
+                </div>
+                <img loading="lazy" src="menu.png" class="hero-image" alt="Menu image" />
+            </section>
+            
+            <div class="menu-section" id="mains">
+                <h2 class="section-title">MAINS</h2>
+                <div class="menu-grid" id="mainsGrid"></div>
+            </div>
+    
+            <div class="menu-section" id="appetizers">
+                <h2 class="section-title">APPETIZERS</h2>
+                <div class="menu-grid" id="appetizersGrid"></div>
+            </div>
+    
+            <div class="menu-section" id="desserts">
+                <h2 class="section-title">DESSERTS</h2>
+                <div class="menu-grid" id="dessertsGrid"></div>
+            </div>
+        </div>
+    
+        <div class="cart" id="cart">
+            <h2>Checkout</h2>
+            <ul id="cartItems"></ul>
+            <p>Total: $<span id="cartTotal">0.00</span></p>
+            <div class="payment-options">
+                <button class="payment-button" id="creditcardButton">Pay with Credit/Debit Card</button>
+                <button class="payment-button" id="qrButton">Pay with QR</button>
+                <button class="payment-button" id="AlipayButton">Pay with Alipay</button>
+                <button class="payment-button" id="PaynowButton">Pay with PayNow</button>
+            </div>
+            <div id="qrCode"></div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script>
+        const menuItems = {
+            mains: [
+                { name: 'Sizzling Steak', description: 'Premium cut steak with signature marinade', price: 32.95, image: '/api/placeholder/300/200' },
+                { name: 'Grilled Chicken', description: 'Herb-marinated chicken with special sauce', price: 19.95, image: '/api/placeholder/300/200' },
+                { name: 'Beef Burger', description: 'Classic beef burger with cheese and sauce', price: 16.95, image: '/api/placeholder/300/200' },
+                { name: 'Spaghetti Bolognese', description: 'Classic pasta with beef ragu', price: 17.95, image: '/api/placeholder/300/200' },
+                { name: 'Fish and Chips', description: 'Crispy fish fillet with rustic chips', price: 18.95, image: '/api/placeholder/300/200' },
+                { name: 'Lamb Chop', description: 'Grilled lamb chop with fresh vegetables', price: 28.95, image: '/api/placeholder/300/200' }
+            ],
+            appetizers: [
+                { name: 'Stuffed Mushrooms', description: 'Fresh mushrooms with herbs and cream', price: 9.95, image: '/api/placeholder/300/200' },
+                { name: 'Crispy Calamari', description: 'Fresh squid rings with tartar sauce', price: 10.95, image: '/api/placeholder/300/200' },
+                { name: 'Classic Bruschetta', description: 'Toasted bread with tomatoes and basil', price: 7.95, image: '/api/placeholder/300/200' },
+                { name: 'Buffalo Wings', description: 'Spicy wings with blue cheese dip', price: 12.95, image: '/api/placeholder/300/200' },
+                { name: 'Cheese Platter', description: 'Selection of fine cheeses', price: 15.95, image: '/api/placeholder/300/200' },
+                { name: 'Spring Rolls', description: 'Vegetable spring rolls with sweet chili', price: 8.95, image: '/api/placeholder/300/200' }
+            ],
+            desserts: [
+                { name: 'Chocolate Lava Cake', description: 'Warm chocolate cake with vanilla ice cream', price: 8.95, image: '/api/placeholder/300/200' },
+                { name: 'New York Cheesecake', description: 'Classic cheesecake with berry compote', price: 7.95, image: '/api/placeholder/300/200' },
+                { name: 'Apple Pie', description: 'Warm apple pie with a flaky crust', price: 6.95, image: '/api/placeholder/300/200' }
+            ]
+        };
+
+        const cart = [];
+        function renderMenuSection(section, items) {
+            const grid = document.getElementById(`${section}Grid`);
+            items.forEach(item => {
+                const itemElement = document.createElement('div');
+                itemElement.className = 'menu-item';
+                itemElement.innerHTML = `
+                    <img src="${item.image}" alt="${item.name}">
+                    <div class="menu-item-content">
+                        <h3 class="menu-item-title">${item.name}</h3>
+                        <p>${item.description}</p>
+                        <p class="menu-item-price">$${item.price.toFixed(2)}</p>
+                        <button class="add-to-cart" onclick="addToCart('${item.name}', ${item.price})">ADD TO CART</button>
+                    </div>
+                `;
+                grid.appendChild(itemElement);
+            });
+        }
+
+        function addToCart(name, price) {
+            const existingItem = cart.find(item => item.name === name);
+            if (existingItem) {
+                existingItem.quantity++;
+            } else {
+                cart.push({ name, price, quantity: 1 });
+            }
+            updateCart();
+        }
+
+        function removeFromCart(name) {
+            const itemIndex = cart.findIndex(item => item.name === name);
+            if (itemIndex !== -1) {
+                cart.splice(itemIndex, 1);
+            }
+            updateCart();
+        }
+
+        function changeQuantity(name, quantity) {
+            const item = cart.find(item => item.name === name);
+            if (item) {
+                item.quantity = quantity;
+                if (item.quantity <= 0) {
+                    removeFromCart(name);
+                } else {
+                    updateCart();
+                }
+            }
+        }
+
+        function updateCart() {
+            const cartItemsElement = document.getElementById('cartItems');
+            const cartTotalElement = document.getElementById('cartTotal');
+            
+            cartItemsElement.innerHTML = '';
+            let total = 0;
+
+            cart.forEach(item => {
+                const li = document.createElement('li');
+                li.innerHTML = `
+                    ${item.name} - $${item.price.toFixed(2)} x ${item.quantity}
+                    <button id= "EditOrderButton" onclick="changeQuantity('${item.name}', ${item.quantity - 1})">-</button>
+                    <button id= "EditOrderButton" onclick="changeQuantity('${item.name}', ${item.quantity + 1})">+</button>
+                    <button id= "EditOrderButton" onclick="removeFromCart('${item.name}')">Remove</button>`;
+    
+                cartItemsElement.appendChild(li);
+                total += item.price * item.quantity;
+            });
+
+            cartTotalElement.textContent = total.toFixed(2);
+        }
+        // Initialize menu
+        renderMenuSection('mains', menuItems.mains);
+        renderMenuSection('appetizers', menuItems.appetizers);
+        renderMenuSection('desserts', menuItems.desserts);
+        //payment options
+        function generateQRCode(data) {
+            const qrCodeElement = document.getElementById('qrCode');
+            qrCodeElement.innerHTML = '';
+            new QRCode(qrCodeElement, {
+                text: data,
+                width: 128,
+                height: 128
+            });
+        }
+        
+        function showAlert() {
+            alert('Payment successful. Order is being processed.');
+        }
+        
+document.getElementById('AlipayButton').addEventListener('click', () => {
+    
+    document.getElementById('qrCode').innerHTML = '<img src="alipay image.jpg" alt="Alipay QR Code" width="128" height="128">';
+    showAlert();
+});
+
+
+document.getElementById('PaynowButton').addEventListener('click', () => {
+    document.getElementById('qrCode').innerHTML = '<img src="paynow image.jpg" alt="PayNow QR Code" width="128" height="128">';
+    showAlert();
+});
+
+
+        const creditCardDetails = [
+    { name: "Muhammad bin Rahman", cardNumber: "8053729610472560", cvv: "222", expiryDate: "2027-11" },
+    { name: "Firdaus bin Ismail", cardNumber: "1568902745610390", cvv: "241", expiryDate: "2027-10" },
+    { name: "Liang Wei Lim", cardNumber: "2894632015827340", cvv: "515", expiryDate: "2027-10" },
+    { name: "Wei Jie Ong", cardNumber: "4236981753098640", cvv: "550", expiryDate: "2028-05" },
+    { name: "Haris bin Mohd Aziz", cardNumber: "7358964120578960", cvv: "378", expiryDate: "2025-12" },
+    { name: "Faizal bin Ahmad", cardNumber: "9807261453892070", cvv: "633", expiryDate: "2028-03" },
+    { name: "Wei Ling Tan", cardNumber: "6547298031874620", cvv: "890", expiryDate: "2028-05" },
+    { name: "Hock Seng Lim", cardNumber: "9876543210987650", cvv: "671", expiryDate: "2027-11" },
+    { name: "Suresh Verma", cardNumber: "5678901234567890", cvv: "669", expiryDate: "2025-07" },
+    { name: "Ravi Iyer", cardNumber: "3456789012345670", cvv: "491", expiryDate: "2028-03" },
+    { name: "Mei Ling Ng", cardNumber: "4567890123456780", cvv: "774", expiryDate: "2025-12" },
+    { name: "Karthik Ranganathan", cardNumber: "2345678901234560", cvv: "245", expiryDate: "2024-11" },
+    { name: "Hui Min Tay", cardNumber: "6789012345678900", cvv: "199", expiryDate: "2027-10" },
+    { name: "Hafizah binti Zainal", cardNumber: "7256391840371820", cvv: "891", expiryDate: "2027-11" },
+    { name: "Norazura binti Mohd Saleh", cardNumber: "2059614783249650", cvv: "986", expiryDate: "2025-12" },
+    { name: "Li Hui Tay", cardNumber: "8491263057814230", cvv: "188", expiryDate: "2027-10" },
+    { name: "Cheng Huat Tan", cardNumber: "5189372065748290", cvv: "156", expiryDate: "2025-07" },
+    { name: "Swati Menon", cardNumber: "7361820495632870", cvv: "900", expiryDate: "2027-11" },
+    { name: "Boon Hock Ong", cardNumber: "4297168350725180", cvv: "259", expiryDate: "2029-12" },
+    { name: "Arjun Bhatia", cardNumber: "6374152893047610", cvv: "355", expiryDate: "2029-10" },
+    { name: "Chee Keong Ng", cardNumber: "1839047625379180", cvv: "906", expiryDate: "2025-12" },
+    { name: "Siti Zulaikha binti Mohd Ali", cardNumber: "9827456310275840", cvv: "337", expiryDate: "2028-05" },
+    { name: "Adrian Wong", cardNumber: "2758639417028530", cvv: "156", expiryDate: "2024-11" },
+    { name: "Kok Leong Goh", cardNumber: "7654321098765430", cvv: "189", expiryDate: "2029-01" },
+    { name: "Li Fang Tan", cardNumber: "6543210987654320", cvv: "659", expiryDate: "2025-12" },
+    { name: "Pris", cardNumber: "1234567890123450", cvv: "123", expiryDate: "2024-11" }
+];
+
+        function validateCardDetails(cardName, cardNumber, cvv, expiryDate) {
+            return creditCardDetails.some(card => 
+                card.name === cardName &&
+                card.cardNumber === cardNumber &&
+                card.cvv === cvv &&
+                card.expiryDate === expiryDate
+            );
+        }
+
+        // Get the modal
+        var modal = document.getElementById("cardModal");
+
+        // Get the button that opens the modal
+        var btn = document.getElementById("creditcardButton");
+
+        // Get the <span> element that closes the modal
+        var span = document.getElementsByClassName("close")[0];
+
+        // When the user clicks the button, open the modal 
+        btn.onclick = function() {
+            modal.style.display = "block";
+        }
+
+        // When the user clicks on <span> (x), close the modal
+        span.onclick = function() {
+            modal.style.display = "none";
+        }
+
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+
+        // Handle the form submission
+        document.getElementById('cardForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const cardName = document.getElementById('cardName').value;
+            const cardNumber = document.getElementById('cardNumber').value;
+            const cvv = document.getElementById('cvv').value;
+            const expiryDate = document.getElementById('expiryDate').value;
+            
+            if (validateCardDetails(cardName, cardNumber, cvv, expiryDate)) {
+                alert('Payment successful. Order is being processed.');
+                modal.style.display = "none";
+                clearCart();
+                generateQRCode('Payment successful. Order is being processed.');
+            } else {
+                alert('Payment unsuccessful. Please key in correct details.');
+            }
+        });
+
+        document.getElementById('qrButton').addEventListener('click', () => {
+            const total = parseFloat(document.getElementById('cartTotal').textContent);
+            const qrData = `Total cost: $${total.toFixed(2)}\n Proceed to payment.`;
+            generateQRCode(qrData);
+        });
+
+        function clearCart() {
+            cart.length = 0;
+            updateCart();
+        }
+        renderMenu();
+    </script>
+</body>
+</html>
