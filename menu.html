@@ -361,22 +361,32 @@
                 <div class="image-container">
                     <img loading="lazy" src="landing page.png" class="hero-image" alt="Landing page image" />
                 </div>
-                <img loading="lazy" src="menu.png" class="hero-image" alt="Menu image" />
+                <img loading="lazy" src="images/menu.png" class="hero-image" alt="Menu image" />
             </section>
             
+            <div class="menu-section" id="seasonal">
+                <h2 class="section-title">SEASONALS</h2>
+                <div class="menu-grid" id="seasonalGrid"></div>
+            </div>
+
             <div class="menu-section" id="mains">
                 <h2 class="section-title">MAINS</h2>
                 <div class="menu-grid" id="mainsGrid"></div>
             </div>
     
             <div class="menu-section" id="appetizers">
-                <h2 class="section-title">APPETIZERS</h2>
+                <h2 class="section-title">APPETIZERS</h2>  
                 <div class="menu-grid" id="appetizersGrid"></div>
             </div>
     
             <div class="menu-section" id="desserts">
                 <h2 class="section-title">DESSERTS</h2>
                 <div class="menu-grid" id="dessertsGrid"></div>
+            </div>
+
+            <div class="menu-section" id="drinks">
+                <h2 class="section-title">DRINKS</h2>
+                <div class="menu-grid" id="drinksGrid"></div>
             </div>
         </div>
     
@@ -397,13 +407,22 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <script>
         const menuItems = {
+            //help me change the desctiption for seasonal
+            seasonal: [
+                { name: 'Bakwa Chips', description: 'Premium cut steak with signature marinade', price: 32.95, image: 'images/Seasonals/BakwaChips.jpg' },
+                { name: 'CNY Family Platter', description: 'Herb-marinated chicken with special sauce', price: 19.95, image: 'images/Seasonals/CNYFamilyPlatter.jpg' },
+                { name: 'Crisy Pork Belly', description: 'Classic beef burger with cheese and sauce', price: 16.95, image: 'images/Seasonals/CrispyPorkBelly.jpg' },
+                { name: 'Laksa Burger', description: 'Classic pasta with beef ragu', price: 17.95, image: 'images/Seasonals/LaksaBurger.jpg'},
+                { name: 'Love Letters', description: 'Crispy fish fillet with rustic chips', price: 18.95, image: 'images/Seasonals/Loveletters.jpg' },
+                { name: 'Signature Seaweed Fries', description: 'Grilled lamb chop with fresh vegetables', price: 28.95, image: 'images/Seasonals/SignatureSeaweedFries.JPG' }
+            ],
             mains: [
-                { name: 'Sizzling Steak', description: 'Premium cut steak with signature marinade', price: 32.95, image: '/api/placeholder/300/200' },
-                { name: 'Grilled Chicken', description: 'Herb-marinated chicken with special sauce', price: 19.95, image: '/api/placeholder/300/200' },
-                { name: 'Beef Burger', description: 'Classic beef burger with cheese and sauce', price: 16.95, image: '/api/placeholder/300/200' },
-                { name: 'Spaghetti Bolognese', description: 'Classic pasta with beef ragu', price: 17.95, image: '/api/placeholder/300/200' },
-                { name: 'Fish and Chips', description: 'Crispy fish fillet with rustic chips', price: 18.95, image: '/api/placeholder/300/200' },
-                { name: 'Lamb Chop', description: 'Grilled lamb chop with fresh vegetables', price: 28.95, image: '/api/placeholder/300/200' }
+                { name: 'Sizzling Steak', description: 'Premium cut steak with signature marinade', price: 32.95, image: 'images/mains/Steak.jpg' },
+                { name: 'Grilled Chicken', description: 'Herb-marinated chicken with special sauce', price: 19.95, image: 'images/mains/grilledchicken.jpg' },
+                { name: 'Beef Burger', description: 'Classic beef burger with cheese and sauce', price: 16.95, image: 'images/mains/burger.jpg' },
+                { name: 'Spaghetti Bolognese', description: 'Classic pasta with beef ragu', price: 17.95, image: 'images/mains/pasta.jpg' },
+                { name: 'Fish and Chips', description: 'Crispy fish fillet with rustic chips', price: 18.95, image: 'images/mains/fishandchips.jpg' },
+                { name: 'Lamb Chop', description: 'Grilled lamb chop with fresh vegetables', price: 28.95, image: 'images/mains/lamb.jpg' }
             ],
             appetizers: [
                 { name: 'Stuffed Mushrooms', description: 'Fresh mushrooms with herbs and cream', price: 9.95, image: '/api/placeholder/300/200' },
@@ -417,6 +436,14 @@
                 { name: 'Chocolate Lava Cake', description: 'Warm chocolate cake with vanilla ice cream', price: 8.95, image: 'images/Desserts/ChocLava.png' },
                 { name: 'New York Cheesecake', description: 'Classic cheesecake with berry compote', price: 7.95, image: 'images/Desserts/NYCC.png' },
                 { name: 'Apple Pie', description: 'Warm apple pie with a flaky crust', price: 6.95, image: 'images/Desserts/APSlice.jpg' }
+            ],
+            drinks: [
+                { name: 'Sizzling Steak', description: 'Premium cut steak with signature marinade', price: 32.95, image: '/api/placeholder/300/200' },
+                { name: 'Grilled Chicken', description: 'Herb-marinated chicken with special sauce', price: 19.95, image: '/api/placeholder/300/200' },
+                { name: 'Beef Burger', description: 'Classic beef burger with cheese and sauce', price: 16.95, image: '/api/placeholder/300/200' },
+                { name: 'Spaghetti Bolognese', description: 'Classic pasta with beef ragu', price: 17.95, image: '/api/placeholder/300/200' },
+                { name: 'Fish and Chips', description: 'Crispy fish fillet with rustic chips', price: 18.95, image: '/api/placeholder/300/200' },
+                { name: 'Lamb Chop', description: 'Grilled lamb chop with fresh vegetables', price: 28.95, image: '/api/placeholder/300/200' }
             ]
         };
 
@@ -491,9 +518,11 @@
             cartTotalElement.textContent = total.toFixed(2);
         }
         // Initialize menu
+        renderMenuSection('seasonal', menuItems.seasonal);
         renderMenuSection('mains', menuItems.mains);
         renderMenuSection('appetizers', menuItems.appetizers);
         renderMenuSection('desserts', menuItems.desserts);
+        renderMenuSection('drinks', menuItems.drinks);
         //payment options
         function generateQRCode(data) {
             const qrCodeElement = document.getElementById('qrCode');
