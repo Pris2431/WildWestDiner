@@ -232,7 +232,7 @@
                                         min-width: 120px;
                                         padding: 0 25px;
                                     }
-                                    } */ */
+                                    } */ 
 
         .add-to-cart:hover, .payment-button:hover, .cart-controls button:hover {
         background-color: var(--secondary-color);
@@ -347,23 +347,16 @@
         <nav>
             <a href="#" class="logo">WildWestDiner</a>
             <div class="nav-links">
-                <a href="#">Home</a>
-                <a href="#">About</a>
-                <a href="#">Staff Login</a>
+                <a href="#home">Home</a>
+                <a href="#about">About</a>
+                <a href="#login">Staff Login</a>
             </div>
         </nav>
     </header>
     
-
     <div class="container">
         <div class="menu-content">
-            <section class="hero-section">
-                <div class="image-container">
-                    <img loading="lazy" src="landing page.png" class="hero-image" alt="Landing page image" />
-                </div>
-                <img loading="lazy" src="images/menu.png" class="hero-image" alt="Menu image" />
-            </section>
-            
+            <img loading="lazy" src="images/landingpage2.jpg" class="hero-image" alt="Menu image" />
             <div class="menu-section" id="seasonal">
                 <h2 class="section-title">SEASONALS</h2>
                 <div class="menu-grid" id="seasonalGrid"></div>
@@ -425,25 +418,26 @@
                 { name: 'Lamb Chop', description: 'Grilled lamb chop with fresh vegetables', price: 28.95, image: 'images/mains/lamb.jpg' }
             ],
             appetizers: [
-                { name: 'Stuffed Mushrooms', description: 'Fresh mushrooms with herbs and cream', price: 9.95, image: '/api/placeholder/300/200' },
-                { name: 'Crispy Calamari', description: 'Fresh squid rings with tartar sauce', price: 10.95, image: '/api/placeholder/300/200' },
-                { name: 'Classic Bruschetta', description: 'Toasted bread with tomatoes and basil', price: 7.95, image: '/api/placeholder/300/200' },
-                { name: 'Buffalo Wings', description: 'Spicy wings with blue cheese dip', price: 12.95, image: '/api/placeholder/300/200' },
-                { name: 'Cheese Platter', description: 'Selection of fine cheeses', price: 15.95, image: '/api/placeholder/300/200' },
-                { name: 'Spring Rolls', description: 'Vegetable spring rolls with sweet chili', price: 8.95, image: '/api/placeholder/300/200' }
+                { name: 'Stuffed Mushrooms', description: 'Fresh mushrooms with herbs and cream', price: 9.95, image: 'images/Appetizers/stuffedmushrooms.jpg' },
+                { name: 'Crispy Calamari', description: 'Fresh squid rings with tartar sauce', price: 10.95, image: 'images/Appetizers/calamari.jpg' },
+                { name: 'Classic Bruschetta', description: 'Toasted bread with tomatoes and basil', price: 7.95, image: 'images/Appetizers/Bruschetta.jpg' },
+                { name: 'Buffalo Wings', description: 'Spicy wings with blue cheese dip', price: 12.95, image: 'images/Appetizers/wings.jpg' },
+                { name: 'Cheese Platter', description: 'Selection of fine cheeses', price: 15.95, image: 'images/Appetizers/cheeseplatter.png' },
+                { name: 'Mozzarella Sticks', description: 'Vegetable spring rolls with sweet chili', price: 8.95, image: 'images/Appetizers/mozsticks.jpg' }
             ],
             desserts: [
                 { name: 'Chocolate Lava Cake', description: 'Warm chocolate cake with vanilla ice cream', price: 8.95, image: 'images/Desserts/ChocLava.png' },
                 { name: 'New York Cheesecake', description: 'Classic cheesecake with berry compote', price: 7.95, image: 'images/Desserts/NYCC.png' },
                 { name: 'Apple Pie', description: 'Warm apple pie with a flaky crust', price: 6.95, image: 'images/Desserts/APSlice.jpg' }
             ],
+            //add description in drinks
             drinks: [
-                { name: 'Sizzling Steak', description: 'Premium cut steak with signature marinade', price: 32.95, image: '/api/placeholder/300/200' },
-                { name: 'Grilled Chicken', description: 'Herb-marinated chicken with special sauce', price: 19.95, image: '/api/placeholder/300/200' },
-                { name: 'Beef Burger', description: 'Classic beef burger with cheese and sauce', price: 16.95, image: '/api/placeholder/300/200' },
-                { name: 'Spaghetti Bolognese', description: 'Classic pasta with beef ragu', price: 17.95, image: '/api/placeholder/300/200' },
-                { name: 'Fish and Chips', description: 'Crispy fish fillet with rustic chips', price: 18.95, image: '/api/placeholder/300/200' },
-                { name: 'Lamb Chop', description: 'Grilled lamb chop with fresh vegetables', price: 28.95, image: '/api/placeholder/300/200' }
+                { name: 'Fanta Grape', description: 'Premium cut steak with signature marinade', price: 32.95, image: 'images/Drinks/fantagrape.jpg' },
+                { name: 'Sunset Cocktail', description: 'Herb-marinated chicken with special sauce', price: 19.95, image: 'images/Drinks/sunsetcocktail.jpg' },
+                { name: 'Blue Lagoon', description: 'Herb-marinated chicken with special sauce', price: 19.95, image: 'images/Drinks/bluelagoon.jpg' },
+                { name: 'Bloody Mary', description: 'Classic beef burger with cheese and sauce', price: 16.95, image: 'images/Drinks/bloodymary.jpg' },
+                { name: 'Coca Cola', description: 'Herb-marinated chicken with special sauce', price: 19.95, image: 'images/Drinks/coke.jpg' },
+                { name: 'Cantera Negra', description: 'An incredibly balanced blend of carefully selected Blue Weber Agave.', price: 16.95, image: 'images/Drinks/tequila.jpg' }
             ]
         };
 
