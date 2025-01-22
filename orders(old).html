@@ -1,0 +1,366 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>WildWestDiner - Order List</title>
+    <style>
+         :root {
+            --primary-green: #1d4f36;
+            --light-gray: #ffffff;
+            --gray: #737373;
+            --light-green: #5b9350;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: var(--primary-green);
+        }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            color: white;
+            padding: 0 20px;
+            margin-bottom: 20px;
+        }
+        
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+        
+        .orders-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            padding: 10px;
+        }
+        
+        .order-card {
+            background: white;
+            border-radius: 10px;
+            padding: 15px;
+            align-self: start;
+        }
+        
+        .order-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+        
+        .order-time {
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .order-items {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        .order-items.collapsed {
+            max-height: 160px;
+        }
+        
+        .order-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .order-item.completed {
+            text-decoration: line-through;
+            color: var(--gray);
+        }
+        
+        .status-button {
+            padding: 5px 10px;
+            border: none;
+            border-radius: 15px;
+            color: white;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        
+        .status-waiting {
+            background-color: #dc3545;
+        }
+        
+        .status-preparing {
+            background-color: #ffc107;
+            color: black;
+        }
+        
+        .status-ready {
+            background-color: #28a745;
+        }
+        
+        .status-completed {
+            background-color: var(--gray);
+        }
+        
+        .action-button {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            margin-top: 15px;
+            cursor: pointer;
+            background-color: #808080;
+            color: white;
+        }
+        
+        .action-button.complete {
+            background-color: #1d4f36;
+            color: white;
+        }
+        
+        .action-button.expandable {
+            background-color: var(--primary-green);
+            color: white;
+        }
+        
+        .items-count {
+            color: var(--primary-green);
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <h1>WildWestDiner</h1>
+        <h1>Order List</h1>
+    </div>
+    <div class="orders-container" id="ordersContainer"></div>
+
+    <script>
+        class OrderSystem {
+            constructor() {
+                this.statusCycle = ['waiting', 'preparing', 'ready', 'completed'];
+                this.orders = [];
+                this.expandedOrders = new Set();
+                this.scrollPositions = new Map();
+                this.init();
+                this.setupEventListeners();
+            }
+
+            init() {
+                this.orders = [{
+                    id: 1,
+                    table: 'Table 1',
+                    time: '10:23am',
+                    items: [{
+                        name: 'Beef Burger',
+                        quantity: 1,
+                        status: 'waiting'
+                    }, {
+                        name: 'Fish and Chips',
+                        quantity: 1,
+                        status: 'waiting'
+                    }, {
+                        name: 'Lamb Chop',
+                        quantity: 2,
+                        status: 'waiting'
+                    }, {
+                        name: 'Sizzling Steak',
+                        quantity: 1,
+                        status: 'waiting'
+                    }, {
+                        name: 'Grilled Chicken',
+                        quantity: 1,
+                        status: 'waiting'
+                    }, {
+                        name: 'Caesar Salad',
+                        quantity: 1,
+                        status: 'waiting'
+                    }, {
+                        name: 'Onion Rings',
+                        quantity: 2,
+                        status: 'waiting'
+                    }]
+                }, {
+                    id: 2,
+                    table: 'Table 2',
+                    time: '10:24am',
+                    items: [{
+                        name: 'Beef Burger',
+                        quantity: 1,
+                        status: 'waiting'
+                    }, {
+                        name: 'Fish and Chips',
+                        quantity: 1,
+                        status: 'waiting'
+                    }, {
+                        name: 'Lamb Chop',
+                        quantity: 2,
+                        status: 'waiting'
+                    }, {
+                        name: 'Sizzling Steak',
+                        quantity: 1,
+                        status: 'waiting'
+                    }, {
+                        name: 'Grilled Chicken',
+                        quantity: 1,
+                        status: 'waiting'
+                    }, {
+                        name: 'Caesar Salad',
+                        quantity: 1,
+                        status: 'waiting'
+                    }, {
+                        name: 'Onion Rings',
+                        quantity: 2,
+                        status: 'waiting'
+                    }, {
+                        name: 'Spaghetti Bolognese',
+                        quantity: 2,
+                        status: 'waiting'
+                    }, {
+                        name: 'Carbonara',
+                        quantity: 2,
+                        status: 'waiting'
+                    }]
+                }, {
+                    id: 3,
+                    table: 'Table 3',
+                    time: '10:24am',
+                    items: [{
+                        name: 'Beef Burger',
+                        quantity: 1000,
+                        status: 'waiting'
+                    }]
+                }];
+                this.render();
+            }
+
+            setupEventListeners() {
+                document.getElementById('ordersContainer').addEventListener('click', (e) => {
+                    const statusButton = e.target.closest('.status-button');
+                    const actionButton = e.target.closest('.action-button');
+
+                    if (statusButton) {
+                        const orderId = parseInt(statusButton.closest('.order-card').querySelector('h2').textContent.split('#')[1]);
+                        const itemIndex = Array.from(statusButton.closest('.order-items').children)
+                            .indexOf(statusButton.closest('.order-item'));
+                        this.updateItemStatus(orderId, itemIndex);
+                    } else if (actionButton) {
+                        const orderId = parseInt(actionButton.closest('.order-card').querySelector('h2').textContent.split('#')[1]);
+                        const order = this.orders.find(o => o.id === orderId);
+                        if (this.isOrderComplete(order)) {
+                            this.completeOrder(orderId);
+                        } else if (this.getTotalItemCount(order) > 4) {
+                            this.toggleOrderExpansion(orderId);
+                        }
+                    }
+                });
+
+                document.getElementById('ordersContainer').addEventListener('scroll', (e) => {
+                    if (e.target.classList.contains('order-items')) {
+                        const orderId = parseInt(e.target.closest('.order-card').querySelector('h2').textContent.split('#')[1]);
+                        this.scrollPositions.set(orderId, e.target.scrollTop);
+                    }
+                }, true);
+            }
+
+            getTotalItemCount(order) {
+                return order.items.reduce((total, item) => total + item.quantity, 0);
+            }
+
+            getNextStatus(currentStatus) {
+                const currentIndex = this.statusCycle.indexOf(currentStatus);
+                return this.statusCycle[(currentIndex + 1) % this.statusCycle.length];
+            }
+
+            updateItemStatus(orderId, itemIndex) {
+                const order = this.orders.find(o => o.id === orderId);
+                if (order) {
+                    order.items[itemIndex].status = this.getNextStatus(order.items[itemIndex].status);
+                    this.render();
+                }
+            }
+
+            isOrderComplete(order) {
+                return order.items.every(item => item.status === 'completed');
+            }
+
+            toggleOrderExpansion(orderId) {
+                if (this.expandedOrders.has(orderId)) {
+                    this.expandedOrders.delete(orderId);
+                } else {
+                    this.expandedOrders.add(orderId);
+                }
+                this.render();
+            }
+
+            completeOrder(orderId) {
+                this.orders = this.orders.filter(order => order.id !== orderId);
+                this.expandedOrders.delete(orderId);
+                this.scrollPositions.delete(orderId);
+                this.render();
+            }
+
+            render() {
+                const container = document.getElementById('ordersContainer');
+                container.innerHTML = this.orders.map(order => this.generateOrderCard(order)).join('');
+
+                document.querySelectorAll('.order-items').forEach(container => {
+                    const orderId = parseInt(container.closest('.order-card').querySelector('h2').textContent.split('#')[1]);
+                    const savedPosition = this.scrollPositions.get(orderId);
+                    if (savedPosition !== undefined) {
+                        container.scrollTop = savedPosition;
+                    }
+                });
+            }
+
+            generateOrderCard(order) {
+                    const isComplete = this.isOrderComplete(order);
+                    const isExpanded = this.expandedOrders.has(order.id);
+                    const totalItems = this.getTotalItemCount(order);
+                    const hasMoreThanFourItems = totalItems > 4;
+
+                    return `
+                    <div class="order-card">
+                        <div class="order-header">
+                            <div>
+                                <h2>Order #${order.id}</h2>
+                                <div class="order-time">${order.time}</div>
+                            </div>
+                            <div>${order.table}</div>
+                        </div>
+                        <div class="items-count">${totalItems} Items</div>
+                        <ul class="order-items ${!isExpanded && hasMoreThanFourItems ? 'collapsed' : ''}">
+                            ${order.items.map((item, index) => `
+                                <li class="order-item ${item.status === 'completed' ? 'completed' : ''}">
+                                    <span>${item.name} x${item.quantity}</span>
+                                    <button 
+                                        class="status-button status-${item.status}"
+                                    >
+                                        ${item.status}
+                                    </button>
+                                </li>
+                            `).join('')}
+                        </ul>
+                        <button 
+                            class="action-button ${isComplete ? 'complete' : ''} ${hasMoreThanFourItems && !isComplete ? 'expandable' : ''}"
+                        >
+                            ${isComplete ? 'Complete Order' : hasMoreThanFourItems ? (isExpanded ? 'Show Less' : 'Expand') : 'Expand'}
+                        </button>
+                    </div>
+                `;
+            }
+        }
+
+        const orderSystem = new OrderSystem();
+    </script>
+</body>
+
+</html>
