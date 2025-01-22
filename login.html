@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <title>WILDWESTDINER - Staff Login</title>
@@ -139,13 +140,13 @@
     </style>
 </head>
 <body>
-    <header class="header">
-        <nav class="nav">
-            <a href="/" class="logo">WILDWESTDINER</a>
+    <header>
+        <nav>
+            <a href="menu.html" class="logo">WildWestDiner</a>
             <div class="nav-links">
-                <a href="/">Home</a>
-                <a href="/about">About</a>
-                <a href="/staff-login">Staff Login</a>
+                <a href="menu.html">Home</a>
+                <a href="about.html">About</a>
+                <a href="login.html">Staff Login</a>
             </div>
         </nav>
     </header>
@@ -195,11 +196,16 @@
                 // Show success message
                 successMessage.style.display = 'block';
                 
-                // After a delay, switch to success view
+                // After a delay, switch to success view, then orders.html after another 2s
                 setTimeout(() => {
                     loginForm.style.display = 'none';
                     successContainer.style.display = 'block';
-                }, 1500);
+
+                    setTimeout(() => {
+                        window.location.href = "orders.html"; 
+                    }, 1500); // Redirect after 2 seconds
+
+                }, 1500); // Show success message for 1.5 seconds
             } else {
                 // Show error for invalid credentials
                 errorMessage.style.display = 'block';

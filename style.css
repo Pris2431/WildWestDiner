@@ -19,12 +19,12 @@
     margin: 0 auto;
     padding-top: 0px; /* Account for fixed header */
     }
-body {
+/* body {
     font-family: 'Roboto', sans-serif;
     background-color: var(--primary-color);
     color: var(--text-color);
     line-height: 1.6;
-}
+} */
 /* Navigation Styles */
         header {
             background-color: var(--card-background);
