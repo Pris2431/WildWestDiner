@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
     <title>Interactive Vending Machine</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <title>WildWestDiner - Menu</title>
@@ -26,7 +27,7 @@
         width: 100%;
         max-width: 1800px;
         margin: 0 auto;
-        padding-top: 80px; /* Account for fixed header */
+        padding-top: 0px; /* Account for fixed header */
         }
         body {
             font-family: 'Roboto', sans-serif;
@@ -193,47 +194,6 @@
             font-weight: 500;
             transition: background-color 0.3s ease;
         }
-
-                                            /* button style
-                                            <!-- HTML !-->
-                                    <button class="button-74" role="button">Button 74</button>
-
-                                    /* CSS */
-                                    /* .button-74 {
-                                    background-color: #fbeee0;
-                                    border: 2px solid #422800;
-                                    border-radius: 30px;
-                                    box-shadow: #422800 4px 4px 0 0;
-                                    color: #422800;
-                                    cursor: pointer;
-                                    display: inline-block;
-                                    font-weight: 600;
-                                    font-size: 18px;
-                                    padding: 0 18px;
-                                    line-height: 50px;
-                                    text-align: center;
-                                    text-decoration: none;
-                                    user-select: none;
-                                    -webkit-user-select: none;
-                                    touch-action: manipulation;
-                                    }
-
-                                    .button-74:hover {
-                                    background-color: #fff;
-                                    }
-
-                                    .button-74:active {
-                                    box-shadow: #422800 2px 2px 0 0;
-                                    transform: translate(2px, 2px);
-                                    }
-
-                                    @media (min-width: 768px) {
-                                    .button-74 {
-                                        min-width: 120px;
-                                        padding: 0 25px;
-                                    }
-                                    } */ 
-
         .add-to-cart:hover, .payment-button:hover, .cart-controls button:hover {
         background-color: var(--secondary-color);
         transform: translateY(-2px);
@@ -353,10 +313,9 @@
             </div>
         </nav>
     </header>
-    
     <div class="container">
         <div class="menu-content">
-            <img loading="lazy" src="images/landingpage2.jpg" class="hero-image" alt="Menu image" />
+            <img loading="lazy" src="images/landingpage2.jpg" class="hero-image" alt="Hero image" />
             <div class="menu-section" id="seasonal">
                 <h2 class="section-title">SEASONALS</h2>
                 <div class="menu-grid" id="seasonalGrid"></div>
@@ -396,6 +355,19 @@
             <div id="qrCode"></div>
         </div>
     </div>
+    <footer>
+        <div class="footer-content">
+            <div>
+                <p>123 Cowboy Lane, Singapore Polytechnic, Singapore</p>
+                <p>Contact: info@wildwestdiner.com</p>
+            </div>
+            <div class="footer-links">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+                <a href="#">Contact Us</a>
+            </div>
+        </div>
+    </footer>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <script>
