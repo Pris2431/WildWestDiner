@@ -3,10 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-    <title>WILDWESTDINER - Staff Login</title>
+    <title>WILDWESTDINER - Contact Us</title>
     <style>
         * {
             margin: 0;
@@ -20,9 +19,7 @@
             min-height: 100vh;
             display: flex;
             flex-direction: column;
-}
-
-
+        }
 
         .header {
             background-color: white;
@@ -63,16 +60,16 @@
             padding: 2rem;
         }
 
-        .login-container {
+        .contact-container {
             background: white;
             padding: 2rem;
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
             width: 100%;
-            max-width: 400px;
+            max-width: 500px;
         }
 
-        .login-title {
+        .contact-title {
             color: #006400;
             text-align: center;
             margin-bottom: 1.5rem;
@@ -80,10 +77,18 @@
         }
 
         .form-group {
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
         }
 
-        .form-group input {
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group textarea {
             width: 100%;
             padding: 0.75rem;
             border: 1px solid #ddd;
@@ -91,12 +96,18 @@
             font-size: 1rem;
         }
 
-        .form-group input:focus {
+        .form-group input:focus,
+        .form-group textarea:focus {
             outline: none;
             border-color: #006400;
         }
 
-        .login-btn {
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .submit-btn {
             width: 100%;
             padding: 0.75rem;
             background-color: #006400;
@@ -108,7 +119,7 @@
             transition: background-color 0.2s;
         }
 
-        .login-btn:hover {
+        .submit-btn:hover {
             background-color: #005200;
         }
 
@@ -124,95 +135,188 @@
             font-size: 0.875rem;
             margin-top: 0.5rem;
             display: none;
-            text-align: center;
+        }
+        .contact-container {
+            background: white;
+            padding: 1.5rem;  /* Reduced padding */
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 400px;  /* Reduced from 500px */
         }
 
-        .success-container {
-            text-align: center;
+        .form-group {
+            margin-bottom: 1rem;  /* Reduced margin */
+        }
+
+        .form-group input,
+        .form-group textarea {
+            padding: 0.5rem;  /* Reduced padding */
+            font-size: 0.9rem;  /* Smaller font */
+        }
+
+        .form-group textarea {
+            min-height: 80px;  /* Reduced height */
+        }
+
+        /* New popup styles */
+        .popup {
             display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            z-index: 1000;
         }
 
-        .welcome-message {
+        .popup h2 {
             color: #006400;
-            font-size: 1.5rem;
             margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .popup p {
+            margin-bottom: 0;
+            font-size: 1rem;
+        }
+
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
         }
     </style>
 </head>
 <body>
-    <header>
-        <nav>
+    <header class="header">
+        <nav class="nav">
             <a href="menu.html" class="logo">WildWestDiner</a>
             <div class="nav-links">
                 <a href="menu.html">Home</a>
                 <a href="about.html">About</a>
-                <a href="login.html">Staff Login</a>
+                <a href="contact.html">Contact</a>
             </div>
         </nav>
     </header>
 
+    <!-- Popup message -->
+    <div class="overlay" id="overlay"></div>
+    <div class="popup" id="successPopup">
+        <h2>Message Sent!</h2>
+        <p>Thank you for contacting us.</p>
+    </div>
+
     <main class="main-content">
-        <div class="login-container">
-            <div id="loginForm">
-                <h1 class="login-title">Contact Us</h1>
-                <form onsubmit="return handleLogin(event)">
-                    <div class="form-group">
-                        <input type="text" id="username" placeholder="Username" required>
-                    </div>
-                    <div class="form-group">
-                        <input type="password" id="password" placeholder="Password" required>
-                    </div>
-                    <div id="errorMessage" class="error-message">
-                        Invalid username or password
-                    </div>
-                    <div id="successMessage" class="success-message">
-                        Login successful! Redirecting...
-                    </div>
-                    <button type="submit" class="login-btn">Log in</button>
-                </form>
-            </div>
-            <div id="successContainer" class="success-container">
-                <h2 class="welcome-message">Welcome, Caleb!</h2>
-                <p>You have successfully logged in.</p>
-            </div>
+        <div class="contact-container">
+            <h1 class="contact-title">Contact Us</h1>
+            <form id="contactForm" action="mailinglist.php" method="POST" onsubmit="return handleSubmit(event)">
+                <div class="form-group">
+                    <label for="name">Full Name</label>
+                    <input type="text" id="name" name="name" required>
+                    <div class="error-message" id="nameError"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" required>
+                    <div class="error-message" id="emailError"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="phone">Phone Number</label>
+                    <input type="tel" id="phone" name="phone" required>
+                    <div class="error-message" id="phoneError"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="message">Message</label>
+                    <textarea id="message" name="message" required></textarea>
+                    <div class="error-message" id="messageError"></div>
+                </div>
+
+                <button type="submit" class="submit-btn">Send Message</button>
+            </form>
         </div>
     </main>
 
     <script>
-        function handleLogin(event) {
-            event.preventDefault();
-            
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
-            const errorMessage = document.getElementById('errorMessage');
-            const successMessage = document.getElementById('successMessage');
-            const loginForm = document.getElementById('loginForm');
-            const successContainer = document.getElementById('successContainer');
-            
-            // Check for specific credentials
-            if (username === 'caleb' && password === 'password') {
-                // Hide error message if it was previously shown
-                errorMessage.style.display = 'none';
-                // Show success message
-                successMessage.style.display = 'block';
-                
-                // After a delay, switch to success view
-                setTimeout(() => {
-                    loginForm.style.display = 'none';
-                    successContainer.style.display = 'block';
-                }, 1500);
+        function validateForm() {
+            let isValid = true;
+            const nameRegex = /^[a-zA-Z\s]{2,50}$/;
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            const phoneRegex = /^(\+65|65)?[89]\d{7}$/;
+
+            // Name validation
+            const name = document.getElementById('name').value;
+            if (!nameRegex.test(name)) {
+                document.getElementById('nameError').textContent = 'Please enter a valid name (2-50 characters, letters only)';
+                document.getElementById('nameError').style.display = 'block';
+                isValid = false;
             } else {
-                // Show error for invalid credentials
-                errorMessage.style.display = 'block';
-                successMessage.style.display = 'none';
-                
-                // Reset form after a delay
-                setTimeout(() => {
-                    errorMessage.style.display = 'none';
-                    document.getElementById('loginForm').reset();
-                }, 3000);
+                document.getElementById('nameError').style.display = 'none';
             }
 
+            // Email validation
+            const email = document.getElementById('email').value;
+            if (!emailRegex.test(email)) {
+                document.getElementById('emailError').textContent = 'Please enter a valid email address';
+                document.getElementById('emailError').style.display = 'block';
+                isValid = false;
+            } else {
+                document.getElementById('emailError').style.display = 'none';
+            }
+
+            // Phone validation
+            const phone = document.getElementById('phone').value;
+            if (!phoneRegex.test(phone)) {
+                document.getElementById('phoneError').textContent = 'Please enter a valid phone number';
+                document.getElementById('phoneError').style.display = 'block';
+                isValid = false;
+            } else {
+                document.getElementById('phoneError').style.display = 'none';
+            }
+
+            // Message validation
+            const message = document.getElementById('message').value;
+            if (message.length < 10) {
+                document.getElementById('messageError').textContent = 'Message must be at least 10 characters long';
+                document.getElementById('messageError').style.display = 'block';
+                isValid = false;
+            } else {
+                document.getElementById('messageError').style.display = 'none';
+            }
+
+            return isValid;
+        }
+
+        function handleSubmit(event) {
+            event.preventDefault();
+            
+            if (validateForm()) {
+                // Show popup
+                document.getElementById('overlay').style.display = 'block';
+                document.getElementById('successPopup').style.display = 'block';
+                
+                // Hide popup after 2 seconds
+                setTimeout(() => {
+                    document.getElementById('overlay').style.display = 'none';
+                    document.getElementById('successPopup').style.display = 'none';
+                    
+                    // Optional: Reset form
+                    document.getElementById('contactForm').reset();
+                }, 2000);
+            }
+            
             return false;
         }
     </script>
