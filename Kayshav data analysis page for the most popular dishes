@@ -1,0 +1,85 @@
+<h1>Most Popular Dishes</h1>
+
+<h2>Top 5 Dishes by Total Orders</h2>
+<table>
+  <thead>
+    <tr>
+      <th>Rank</th>
+      <th>Dish</th>
+      <th>Total Orders</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1.</td>
+      <td>Chicken Tikka Masala</td>
+      <td>2,853</td>
+    </tr>
+    <tr>
+      <td>2.</td>
+      <td>Pad Thai</td>
+      <td>2,604</td>
+    </tr>
+    <tr>
+      <td>3.</td>
+      <td>Sushi Platter</td>
+      <td>2,412</td>
+    </tr>
+    <tr>
+      <td>4.</td>
+      <td>Beef Burrito</td>
+      <td>2,297</td>
+    </tr>
+    <tr>
+      <td>5.</td>
+      <td>Margherita Pizza</td>
+      <td>2,178</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2>Top 5 Dishes by Average Rating</h2>
+<table>
+  <thead>
+    <tr>
+      <th>Rank</th>
+      <th>Dish</th>
+      <th>Average Rating</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1.</td>
+      <td>Sushi Platter</td>
+      <td>4.8</td>
+    </tr>
+    <tr>
+      <td>2.</td>
+      <td>Chicken Tikka Masala</td>
+      <td>4.7</td>
+    </tr>
+    <tr>
+      <td>3.</td>
+      <td>Pad Thai</td>
+      <td>4.6</td>
+    </tr>
+    <tr>
+      <td>4.</td>
+      <td>Beef Burrito</td>
+      <td>4.5</td>
+    </tr>
+    <tr>
+      <td>5.</td>
+      <td>Margherita Pizza</td>
+      <td>4.4</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2>Insights</h2>
+<ul>
+  <li>Chicken Tikka Masala is the most popular dish with the second-highest average rating.</li>
+  <li>Sushi Platter has the highest average rating but is the third most popular dish.</li>
+  <li>Pad Thai and Beef Burrito are both popular and highly rated.</li>
+  <li>Margherita Pizza is a popular dish with a good average rating.</li>
+</ul>
