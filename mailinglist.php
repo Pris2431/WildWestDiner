@@ -96,7 +96,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 // Optional: Log successful submissions
                 $log_message = date('Y-m-d H:i:s') . " - New contact form submission from: " . $email . "\n";
                 file_put_contents('contact_log.txt', $log_message, FILE_APPEND);
-
                 $response['success'] = true;
                 $response['message'] = "Thank you for your message. We'll get back to you soon!";
             } else {

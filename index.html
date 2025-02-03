@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
+    <title>Wild West Diner</title>
+    <style>
+        :root {
+            --primary-color: #12372a;
+            --secondary-color: #0f2e24;
+            --text-color: #333;
+            --background-color: #12372a;
+            --card-background: #fff;
+            --border-radius: 8px;
+            --spacing: 1rem;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        body {
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.9);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+        }
+
+        .loader {
+            width: 35px;
+            height: 80px;
+            position: relative;
+        }
+        .loader:after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            padding: 3px 5px;
+            border-top: 1px solid #bbb6aa;
+            border-bottom: 4px solid #bbb6aa;
+            background: linear-gradient(#612329 0 0) bottom no-repeat content-box, #e4e0d7;
+            mix-blend-mode: darken;
+            animation: l1 1.5s infinite linear;
+        }
+        .loader:before {
+            content: "";
+            position: absolute;
+            inset: -18px calc(50% - 2px) 8px;
+            background: #eb6b3e;   
+            transform-origin: bottom;
+            transform: rotate(8deg);
+        }
+        @keyframes l1 {
+            0%   {background-size: 100% 100%}
+            100% {background-size: 100% 5%}
+        }
+
+        .header {
+            background-color: var(--primary-color);
+            padding: 1rem 2rem;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-weight: bold;
+            color: #fff;
+            text-decoration: none;
+            font-size: 1.5rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #fff;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #eb6b3e;
+        }
+
+        .hero {
+            height: 60vh;
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+                        url('/api/placeholder/1920/1080') center/cover;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-align: center;
+            margin-top: 60px;
+        }
+
+        .hero-content h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .section {
+            padding: 4rem 2rem;
+            background: var(--card-background);
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            color: var(--primary-color);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .video-container {
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        video {
+            width: 100%;
+            display: block;
+        }
+
+        .form-container {
+            background: var(--card-background);
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-color);
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 0.75rem;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .submit-btn:hover {
+            background-color: var(--secondary-color);
+        }
+
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            text-align: center;
+            z-index: 1000;
+        }
+
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 999;
+        }
+
+        .map-container {
+            height: 450px;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            margin-bottom: 2rem;
+        }
+
+        .info-box {
+            background: var(--card-background);
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+
+        .error-message {
+            color: #dc3545;
+            font-size: 0.875rem;
+            margin-top: 0.5rem;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loader"></div>
+    </div>
+
+    <header class="header">
+        <nav class="nav">
+            <a href="#" class="logo">Wild West Diner</a>
+            <div class="nav-links">
+                <a href="#home">Home</a>
+                <a href="#video">Our Story</a>
+                <a href="#menu">Menu</a>
+                <a href="#reservations">Reservations</a>
+                <a href="#contact">Contact</a>
+            </div>
+        </nav>
+    </header>
+
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1>Wild West Diner</h1>
+            <p>Experience authentic Western cuisine in a rustic atmosphere</p>
+        </div>
+    </section>
+
+    <section id="video" class="section">
+        <div class="container">
+            <h2 class="section-title">Our Story</h2>
+            <div class="video-container">
+                <video controls>
+                    <source src="videos/WildWestVid.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+        </div>
+    </section>
+
+    <section id="reservations" class="section">
+        <div class="container">
+            <h2 class="section-title">Make a Reservation</h2>
+            <div class="form-container">
+                <form id="reservationForm" action="process_reservation.php" method="POST">
+                    <div class="form-group">
+                        <label for="resName">Full Name</label>
+                        <input type="text" id="resName" name="name" required>
+                        <div class="error-message" id="resNameError"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="resEmail">Email Address</label>
+                        <input type="email" id="resEmail" name="email" required>
+                        <div class="error-message" id="resEmailError"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="resPhone">Phone Number</label>
+                        <input type="tel" id="resPhone" name="phone" required>
+                        <div class="error-message" id="resPhoneError"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="resDate">Date</label>
+                        <input type="date" id="resDate" name="date" required min="">
+                        <div class="error-message" id="resDateError"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="resTime">Time</label>
+                        <select id="resTime" name="time" required>
+                            <option value="">Select time</option>
+                            <option value="11:00">11:00 AM</option>
+                            <option value="11:30">11:30 AM</option>
+                            <option value="12:00">12:00 PM</option>
+                            <option value="12:30">12:30 PM</option>
+                            <option value="13:00">1:00 PM</option>
+                            <option value="13:30">1:30 PM</option>
+                            <option value="14:00">2:00 PM</option>
+                            <option value="18:00">6:00 PM</option>
+                            <option value="18:30">6:30 PM</option>
+                            <option value="19:00">7:00 PM</option>
+                            <option value="19:30">7:30 PM</option>
+                            <option value="20:00">8:00 PM</option>
+                        </select>
+                        <div class="error-message" id="resTimeError"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="resGuests">Number of Guests</label>
+                        <select id="resGuests" name="guests" required>
+                            <option value="">Select number of guests</option>
+                            <option value="1">1 person</option>
+                            <option value="2">2 people</option>
+                            <option value="3">3 people</option>
+                            <option value="4">4 people</option>
+                            <option value="5">5 people</option>
+                            <option value="6">6 people</option>
+                            <option value="7+">7+ people</option>
+                        </select>
+                        <div class="error-message" id="resGuestsError"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="resNotes">Special Requests</label>
+                        <textarea id="resNotes" name="notes" rows="3"></textarea>
+                    </div>
+
+                    <button type="submit" class="submit-btn">Make Reservation</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="section">
+        <div class="container">
+            <h2 class="section-title">Find Us</h2>
+            <div class="map-container">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2355.570363750317!2d-3.0580937242402944!3d53.814928339561035!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x487b44702d80744b%3A0x3ff176458f468985!2sWild%20West%20Diner!5e0!3m2!1sen!2ssg!4v1738580645679!5m2!1sen!2ssg" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+
+            <div class="info-container">
+                <div class="info-box">
+                    <h3>Hours of Operation</h3>
+                    <p>Monday - Thursday: 11:00 AM - 9:00 PM</p>
+                    <p>Friday - Saturday: 11:00 AM - 10:00 PM</p>
+                    <p>Sunday: 11:00 AM - 8:00 PM</p>
+                    
+                    <h3>Contact Information</h3>
+                    <p>Phone: (555) 123-4567</p>
+                    <p>Email: info@wildwestdiner.com</p>
+                    <p>Address: 123 Western Street, Cityville, ST 12345</p>
+                </div>
+            </div>
+
+            <div class="form-container">
+                <h3>Send us a Message</h3>
+                <form id="contactForm" action="process_contact.php" method="POST">
+                    <div class="form-group">
+                        <label for="name">Full Name</label>
+                        <input type="text" id="name" name="name" required>
+                        <div class="error-message" id="nameError"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" name="email" required>
+                        <div class="error-message" id="emailError"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <input type="tel" id="phone" name="phone" required>
+                        <div class="error-message" id="phoneError"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="message">Message</label>
+                        <textarea id="message" name="message" required></textarea>
+                        <div class="error-message" id="messageError"></div>
+                    </div>
+
+                    <button type="submit" class="submit-btn">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <div class="overlay" id="overlay"></div>
+    <div class="popup" id="successPopup">
+        <h2>Success!</h2>
+        <p id="popupMessage">Thank you for your message.</p>
+    </div>
+
+    <script>
+        // Set minimum date for reservations to today
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById('resDate').min = today;
+
+        // Page load handler
+        window.addEventListener('load', function() {
+            document.getElementById('loadingOverlay').style.display = 'none';
+        });
+
+        // Utility functions
+        function showPopup(message) {
+            document.getElementById('popupMessage').textContent = message;
+            document.getElementById('overlay').style.display = 'block';
+            document.getElementById('successPopup').style.display = 'block';
+            
+            setTimeout(() => {
+                document.getElementById('overlay').style.display = 'none';
+                document.getElementById('successPopup').style.display = 'none';
+            }, 3000);
+        }
+
+        function validateEmail(email) {
+            return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+        }
+
+        function validatePhone(phone) {
+            return /^(\+65|65)?[89]\d{7}$/.test(phone);
+        }
+
+        // Contact form submission
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            document.getElementById('loadingOverlay').style.display = 'flex';
+            
+            const formData = new FormData(this);
+            
+            fetch('process_contact.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('loadingOverlay').style.display = 'none';
+                if(data.success) {
+                    showPopup('Thank you for your message! We will get back to you soon.');
+                    this.reset();
+                } else {
+                    showPopup(data.message || 'There was an error. Please try again.');
+                }
+            })
+            .catch(error => {
+                document.getElementById('loadingOverlay').style.display = 'none';
+                showPopup('There was an error sending your message. Please try again.');
+            });
+        });
+
+        // Reservation form submission
+        document.getElementById('reservationForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            document.getElementById('loadingOverlay').style.display = 'flex';
+            
+            const formData = new FormData(this);
+            
+            fetch('process_reservation.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('loadingOverlay').style.display = 'none';
+                if(data.success) {
+                    showPopup('Your reservation has been confirmed! A confirmation email will be sent shortly.');
+                    this.reset();
+                } else {
+                    showPopup(data.message || 'There was an error with your reservation. Please try again.');
+                }
+            })
+            .catch(error => {
+                document.getElementById('loadingOverlay').style.display = 'none';
+                showPopup('There was an error processing your reservation. Please try again.');
+            });
+        });
+
+        // Form validation
+        const forms = document.querySelectorAll('form');
+        forms.forEach(form => {
+            const inputs = form.querySelectorAll('input, select, textarea');
+            inputs.forEach(input => {
+                input.addEventListener('blur', function() {
+                    validateField(this);
+                });
+            });
+        });
+
+        function validateField(field) {
+            const errorElement = document.getElementById(`${field.id}Error`);
+            if (!errorElement) return;
+
+            switch(field.type) {
+                case 'email':
+                    if (!validateEmail(field.value)) {
+                        errorElement.textContent = 'Please enter a valid email address';
+                        errorElement.style.display = 'block';
+                    } else {
+                        errorElement.style.display = 'none';
+                    }
+                    break;
+                case 'tel':
+                    if (!validatePhone(field.value)) {
+                        errorElement.textContent = 'Please enter a valid phone number';
+                        errorElement.style.display = 'block';
+                    } else {
+                        errorElement.style.display = 'none';
+                    }
+                    break;
+                case 'text':
+                    if (field.value.length < 2) {
+                        errorElement.textContent = 'This field is required';
+                        errorElement.style.display = 'block';
+                    } else {
+                        errorElement.style.display = 'none';
+                    }
+                    break;
+            }
+        }
+    </script>
+</body>
+</html>
