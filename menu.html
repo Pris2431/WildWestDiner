@@ -352,7 +352,16 @@
             <p>Total: $<span id="cartTotal">0.00</span></p>
             <div class="payment-options">
                 <button class="payment-button" id="creditcardButton">Pay with Credit/Debit Card</button>
-                <button class="payment-button" id="qrButton">Pay with QR</button>
+                <!-- <button class="payment-button" id="qrButton">Pay with QR</button> -->
+                <script async
+  src="https://js.stripe.com/v3/buy-button.js">
+</script>
+
+<stripe-buy-button
+  buy-button-id="buy_btn_1Qp3R3JXNObT7GtfLGsWMYNy"
+  publishable-key="pk_test_51Qjx0UJXNObT7GtfGnfqMmoQ5Y86sdn0CPFffgsXL3PqaoGA5kVXgJAYJvzVMgJB9MURmh9oAJNBFSHvtctSfxEZ0006F9z1cb"
+>
+</stripe-buy-button>
                 <button class="payment-button" id="AlipayButton">Pay with Alipay</button>
                 <button class="payment-button" id="PaynowButton">Pay with PayNow</button>
             </div>
