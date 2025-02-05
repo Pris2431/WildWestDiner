@@ -113,9 +113,12 @@
         }
 
         .hero {
-            height: 60vh;
-            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
-                        url('/api/placeholder/1920/1080') center/cover;
+            height: 400px;
+            max-height: 60vh;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            background-image: url('images/landingpage2.jpg');
             display: flex;
             align-items: center;
             justify-content: center;
@@ -123,6 +126,7 @@
             text-align: center;
             margin-top: 60px;
         }
+        
 
         .hero-content h1 {
             font-size: 3.5rem;
@@ -252,6 +256,62 @@
             margin-top: 0.5rem;
             display: none;
         }
+        /* footer styles */
+        footer {
+            background: #12372a;
+            color: white;
+            padding: 2rem;
+            margin-top: 4rem;
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .footer-links {
+            display: flex;
+            gap: 2rem;
+        }
+        
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+        }
+        /* whatsapp contact us style */
+        .whatsapp_float {
+            position: fixed;
+            width: 60px;
+            height: 60px;
+            bottom: 80px;
+            right: 10px;
+            background-color: #25d366;
+            color: #fff;
+            border-radius: 50px;
+            text-align: center;
+            font-size: 30px;
+            box-shadow: 2px 2px 3px #999;
+            z-index: 100;
+        }
+        .whatsapp-icon {
+            margin-top: 16px;
+        }
+
+        /* for mobile */
+        @media screen and (max-width: 767px){
+            .whatsapp-icon {
+            margin-top: 10px;
+            }
+            .whatsapp_float {
+            width: 40px;
+            height: 40px;
+            bottom: 20px;
+            right: 10px;
+            font-size: 22px;
+            }}
     </style>
 </head>
 <body>
@@ -264,10 +324,11 @@
             <a href="#" class="logo">Wild West Diner</a>
             <div class="nav-links">
                 <a href="#home">Home</a>
-                <a href="#video">Our Story</a>
-                <a href="#menu">Menu</a>
+                <a href="about.html">About us</a>
+                <a href="menu.html">Menu</a>
                 <a href="#reservations">Reservations</a>
-                <a href="#contact">Contact</a>
+                <a href="#contact">Contact Us!</a>
+                <a href="login.html">Log in</a>
             </div>
         </nav>
     </header>
@@ -293,11 +354,12 @@
 <div><!-- pris testimonials -->
     <script src="https://static.elfsight.com/platform/platform.js" async></script>
     <div class="elfsight-app-5dd9628b-d123-412c-9a74-e7e545f0bbb4" data-elfsight-app-lazy></div>
-    
+    <br>
 </div>
-    <section id="reservations" class="section">
+
+    <section id="reservations" class="section" style="background-color:#12372a">
         <div class="container">
-            <h2 class="section-title">Make a Reservation</h2>
+            <h1 class="section-title" style="color:white">Make a Reservation</h1>
             <div class="form-container">
                 <form id="reservationForm" action="process_reservation.php" method="POST">
                     <div class="form-group">
@@ -372,11 +434,10 @@
 
     <section id="contact" class="section">
         <div class="container">
-            <h2 class="section-title">Find Us</h2>
+            <h1 class="section-title">Find Us</h1>
             <div class="map-container">
                 <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2355.570363750317!2d-3.0580937242402944!3d53.814928339561035!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x487b44702d80744b%3A0x3ff176458f468985!2sWild%20West%20Diner!5e0!3m2!1sen!2ssg!4v1738580645679!5m2!1sen!2ssg" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
             </div>
-
             <div class="info-container">
                 <div class="info-box">
                     <h3>Hours of Operation</h3>
@@ -390,9 +451,12 @@
                     <p>Address: 123 Western Street, Cityville, ST 12345</p>
                 </div>
             </div>
-
-            <div class="form-container">
-                <h1>Contact us!</h1>
+        </div>
+        </section>
+        <section style="background-color:#12372a">
+            <br>
+            <h1 class="section-title" style="color:white">Contact us!</h1>
+            <div class="form-container" >
                 <form id="contactForm" action="process_contact.php" method="POST">
                     <div class="form-group">
                         <label for="name">Full Name</label>
@@ -421,7 +485,20 @@
                     <button type="submit" class="submit-btn">Send Message</button>
                 </form>
             </div>
+            <footer>
+        <div class="footer-content">
+            <div>
+                <p>123 Western Street, Cityville, ST 12345</p>
+                <p>Contact: +65 88576362</p>
+            </div>
+            <div class="footer-links">
+                <a href="">Privacy Policy</a>
+                <a href="">Terms of Service</a>
+                <a href="Contactus.html">Contact Us</a>
+                <a href="https:/wa.me/6585301162"  target="_blank" class="whatsapp_float"><i class="fa-brands fa-whatsapp whatsapp-icon"></i></a>
+            </div>
         </div>
+    </footer>
     </section>
 
     <div class="overlay" id="overlay"></div>
@@ -429,9 +506,17 @@
         <h2>Success!</h2>
         <p id="popupMessage">Thank you for your message.</p>
     </div>
-    <script src="https://static.elfsight.com/platform/platform.js" async></script>
-<div class="elfsight-app-41bc2295-c138-4bc6-ab0c-ed489a5e9a22" data-elfsight-app-lazy></div>
-
+    <div>
+    <!-- //Pris AI chatbot -->
+     <!-- go to https://www.chatbase.co/dashboard/wild-west-diner/chatbot/Q8yLK8Y3u29YehS_NFq83/activity/chat-logs to see chat logs -->
+    <script>
+    (function(){if(!window.chatbase||window.chatbase("getState")!=="initialized"){window.chatbase=(...arguments)=>{if(!window.chatbase.q){window.chatbase.q=[]}window.chatbase.q.push(arguments)};window.chatbase=new Proxy(window.chatbase,{get(target,prop){if(prop==="q"){return target.q}return(...args)=>target(prop,...args)}})}const onLoad=function(){const script=document.createElement("script");script.src="https://www.chatbase.co/embed.min.js";script.id="Q8yLK8Y3u29YehS_NFq83";script.domain="www.chatbase.co";document.body.appendChild(script)};if(document.readyState==="complete"){onLoad()}else{window.addEventListener("load",onLoad)}})();
+        //Pris Server identity  verification
+        const crypto = require('crypto');
+        const secret = 'aa2kxdvgqvjfipgcazwkqm5tvfliioof'; // Your verification secret key
+        const userId = current_user.id // A string UUID to identify your user
+        const hash = crypto.createHmac('sha256', secret).update(userId).digest('hex');
+    </script>
     <script>
         // Set minimum date for reservations to today
         const today = new Date().toISOString().split('T')[0];

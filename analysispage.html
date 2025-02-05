@@ -1,99 +1,267 @@
-
 <!DOCTYPE html>
-<html lang="en">
-
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-    <title>WildWestDiner</title>
-    <h1>Most Popular Dishes</h1>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Lato:wght@300;400;700&display=swap');
+        
+        body {
+            background-color: #1a1a1a;
+            color: #e0e0e0;
+            font-family: 'Lato', sans-serif;
+            margin: 0;
+            padding: 40px;
+            min-height: 100vh;
+            background-image: 
+                linear-gradient(45deg, rgba(0,0,0,0.2) 25%, transparent 25%),
+                linear-gradient(-45deg, rgba(0,0,0,0.2) 25%, transparent 25%),
+                linear-gradient(45deg, transparent 75%, rgba(0,0,0,0.2) 75%),
+                linear-gradient(-45deg, transparent 75%, rgba(0,0,0,0.2) 75%);
+            background-size: 20px 20px;
+            background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px;
+            background-color: rgba(26, 26, 26, 0.95);
+            border: 1px solid #333;
+            border-radius: 15px;
+            box-shadow: 0 0 40px rgba(0,0,0,0.5);
+        }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5em;
+            color: #d4af37;
+            text-align: center;
+            margin-bottom: 40px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            border-bottom: 2px solid #d4af37;
+            padding-bottom: 20px;
+        }
+
+        h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2em;
+            color: #d4af37;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin: 20px 0;
+            background: rgba(255,255,255,0.03);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+
+        th, td {
+            padding: 20px;
+            text-align: left;
+            border-bottom: 1px solid #333;
+        }
+
+        th {
+            background-color: #d4af37;
+            color: #1a1a1a;
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        tr:hover {
+            background-color: rgba(212, 175, 55, 0.1);
+            transition: background-color 0.3s ease;
+        }
+
+        td:first-child {
+            color: #d4af37;
+            font-weight: bold;
+        }
+
+        .insights {
+            background-color: rgba(255,255,255,0.03);
+            padding: 30px;
+            border-radius: 10px;
+            margin-top: 40px;
+            border-left: 4px solid #d4af37;
+        }
+
+        .insights ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .insights li {
+            margin-bottom: 15px;
+            padding-left: 25px;
+            position: relative;
+        }
+
+        .insights li::before {
+            content: "•";
+            color: #d4af37;
+            font-size: 1.5em;
+            position: absolute;
+            left: 0;
+            top: -5px;
+        }
+
+        .rating {
+            display: inline-block;
+            color: #d4af37;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .container > * {
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .stat-card {
+            background: rgba(255,255,255,0.03);
+            padding: 25px;
+            border-radius: 10px;
+            text-align: center;
+            border: 1px solid #333;
+        }
+
+        .stat-value {
+            font-size: 2.5em;
+            color: #d4af37;
+            margin: 10px 0;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .stat-label {
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.9em;
+        }
+    </style>
 </head>
-<body></body>
-<h2>Top 5 Dishes by Total Orders</h2>
-<table>
-  <thead>
-    <tr>
-      <th>Rank</th>
-      <th>Dish</th>
-      <th>Total Orders</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>1.</td>
-      <td>Chicken Tikka Masala</td>
-      <td>2,853</td>
-    </tr>
-    <tr>
-      <td>2.</td>
-      <td>Pad Thai</td>
-      <td>2,604</td>
-    </tr>
-    <tr>
-      <td>3.</td>
-      <td>Sushi Platter</td>
-      <td>2,412</td>
-    </tr>
-    <tr>
-      <td>4.</td>
-      <td>Beef Burrito</td>
-      <td>2,297</td>
-    </tr>
-    <tr>
-      <td>5.</td>
-      <td>Margherita Pizza</td>
-      <td>2,178</td>
-    </tr>
-  </tbody>
-</table>
+<body>
+    <div class="container">
+        <h1>Most Popular Dishes</h1>
 
-<h2>Top 5 Dishes by Average Rating</h2>
-<table>
-  <thead>
-    <tr>
-      <th>Rank</th>
-      <th>Dish</th>
-      <th>Average Rating</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>1.</td>
-      <td>Sushi Platter</td>
-      <td>4.8</td>
-    </tr>
-    <tr>
-      <td>2.</td>
-      <td>Chicken Tikka Masala</td>
-      <td>4.7</td>
-    </tr>
-    <tr>
-      <td>3.</td>
-      <td>Pad Thai</td>
-      <td>4.6</td>
-    </tr>
-    <tr>
-      <td>4.</td>
-      <td>Beef Burrito</td>
-      <td>4.5</td>
-    </tr>
-    <tr>
-      <td>5.</td>
-      <td>Margherita Pizza</td>
-      <td>4.4</td>
-    </tr>
-  </tbody>
-</table>
+        <div class="stats-container">
+            <div class="stat-card">
+                <div class="stat-value">12,344</div>
+                <div class="stat-label">Total Orders This Month</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">4.6</div>
+                <div class="stat-label">Average Rating</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">89%</div>
+                <div class="stat-label">Customer Satisfaction</div>
+            </div>
+        </div>
 
-<h2>Insights</h2>
-<ul>
-  <li>Chicken Tikka Masala is the most popular dish with the second-highest average rating.</li>
-  <li>Sushi Platter has the highest average rating but is the third most popular dish.</li>
-  <li>Pad Thai and Beef Burrito are both popular and highly rated.</li>
-  <li>Margherita Pizza is a popular dish with a good average rating.</li>
-</ul>
+        <h2>Top 5 Dishes by Total Orders</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Rank</th>
+                    <th>Dish</th>
+                    <th>Total Orders</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>Chicken Tikka Masala</td>
+                    <td>2,853</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>Pad Thai</td>
+                    <td>2,604</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>Sushi Platter</td>
+                    <td>2,412</td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>Beef Burrito</td>
+                    <td>2,297</td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>Margherita Pizza</td>
+                    <td>2,178</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>Top 5 Dishes by Average Rating</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Rank</th>
+                    <th>Dish</th>
+                    <th>Average Rating</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>Sushi Platter</td>
+                    <td>4.8</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>Chicken Tikka Masala</td>
+                    <td>4.7</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>Pad Thai</td>
+                    <td>4.6</td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>Beef Burrito</td>
+                    <td>4.5</td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>Margherita Pizza</td>
+                    <td>4.4</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="insights">
+            <h2>Key Insights</h2>
+            <ul>
+                <li>Chicken Tikka Masala is the most popular dish with the second-highest average rating.</li>
+                <li>Sushi Platter has the highest average rating but is the third most popular dish.</li>
+                <li>Pad Thai and Beef Burrito are both popular and highly rated.</li>
+                <li>Margherita Pizza is a popular dish with a good average rating.</li>
+            </ul>
+        </div>
+    </div>
 </body>
 </html>
