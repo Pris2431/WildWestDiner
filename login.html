@@ -21,38 +21,46 @@
             display: flex;
             flex-direction: column;
 }
-
-
-
-        .header {
-            background-color: white;
-            padding: 1rem 2rem;
+                /* Navigation Styles */
+            header {
+            background-color: var(--card-background);
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
         }
 
-        .nav {
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            max-width: 1200px;
-            margin: 0 auto;
         }
 
         .logo {
-            font-weight: bold;
-            color: #333;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
             text-decoration: none;
-            font-size: 1.2rem;
+            text-align: left;
         }
 
         .nav-links {
             display: flex;
-            gap: 1.5rem;
+            gap: 2rem;
         }
 
         .nav-links a {
             text-decoration: none;
-            color: #333;
+            color: var(--text-color);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-color);
         }
 
         .main-content {
@@ -142,11 +150,12 @@
 <body>
     <header>
         <nav>
-            <a href="menu.html" class="logo">WildWestDiner</a>
+            <a href="index.html" class="logo">WildWestDiner</a>
             <div class="nav-links">
-                <a href="menu.html">Home</a>
-                <a href="about.html">About</a>
-                <a href="login.html">Staff Login</a>
+                <a href="index.html">Home</a>
+                <a href="about.html">About us</a>
+                <a href="menu.html">Menu</a>
+                <a href="login.html">Login</a>
             </div>
         </nav>
     </header>

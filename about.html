@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-    <title>WildWestDiner</title>
+    <title>Wild West Diner</title>
     <style>
         * {
             margin: 0;
@@ -41,7 +41,7 @@
         }
         
         .team {
-            max-width: 1200px;
+            /* max-width: 1200px; */
             margin: 4rem auto;
             padding: 0 2rem;
         }
@@ -117,20 +117,61 @@
                 grid-template-columns: 1fr;
             }
         }
+                /* Navigation Styles */
+                header {
+            background-color: var(--card-background);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-decoration: none;
+            text-align: left;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+
+
     </style>
 </head>
 
 <body style="background-color: white;">
-    <header class="header">
-        <nav class="nav">
-            <a href="#" class="logo">Wild West Diner</a>
+    <header>
+        <nav>
+            <a href="index.html" class="logo">WildWestDiner</a>
             <div class="nav-links">
                 <a href="index.html">Home</a>
                 <a href="about.html">About us</a>
                 <a href="menu.html">Menu</a>
-                <a href="#reservations">Reservations</a>
-                <a href="#contact">Contact Us!</a>
-                <a href="login.html">Log in</a>
+                <a href="login.html">Login</a>
             </div>
         </nav>
     </header>
@@ -154,8 +195,13 @@
             </div>
             <div class="team-member">
                 <img src="images/About Page/ChefJames.png" alt="Head Chef James">
-                <h3>Head Chef James</h3>
-                <p>James ensures that every plate has an unforgettable experience with his excellent management skills.</p>
+                <h3>Head Chef Caleb</h3>
+                <p>Caleb ensures that every plate has an unforgettable experience with his excellent management skills.</p>
+            </div>
+            <div class="team-member">
+                <img src="images/About Page/ChefJames.png" alt="Head Chef James">
+                <h3>Head Chef Kayshav</h3>
+                <p>Kayshav ensures that every plate has an unforgettable experience with his excellent management skills.</p>
             </div>
             <div class="team-member">
                 <img src="images/About Page/ChefShao.png" alt="Chef Shao Yuan">
@@ -170,7 +216,7 @@
         <img src="images/About Page/veg.png" alt="Fresh Ingredients">
         <div>
             <h2>Selection of Ingredients</h2> <br>
-            <p>At WildWestDiner, we pride ourselves on sourcing only the freshest and most authentic ingredients. Our commitment to high-level doesn't simply flow and bring farm-to-table quality to every dish, upholding our commitment to sustainability and
+            <p>At Wild West Diner, we pride ourselves on sourcing only the freshest and most authentic ingredients. Our commitment to high-level doesn't simply flow and bring farm-to-table quality to every dish, upholding our commitment to sustainability and
                 flavor.
             </p>
         </div>
@@ -179,14 +225,14 @@
 <footer>
     <div class="footer-content">
         <div>
-            <p>123 Cowboy Lane, Singapore Polytechnic, Singapore</p>
+            <p>123 Western Street, Cityville, ST 12345</p>
             <p>Contact: +65 88576362</p>
         </div>
         <div class="footer-links">
             <a href="">Privacy Policy</a>
             <a href="">Terms of Service</a>
             <a href="Contactus.html">Contact Us</a>
-            <a href="https:/wa.me/6588576364"  target="_blank" class="whatsapp_float"><i class="fa-brands fa-whatsapp whatsapp-icon"></i></a>
+            <a href="https:/wa.me/+6585301162"  target="_blank" class="whatsapp_float"><i class="fa-brands fa-whatsapp whatsapp-icon"></i></a>
         </div>
     </div>
 </footer>

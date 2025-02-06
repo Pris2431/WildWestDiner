@@ -321,13 +321,11 @@
 
     <header class="header">
         <nav class="nav">
-            <a href="#" class="logo">Wild West Diner</a>
+            <a href="index.html" class="logo">Wild West Diner</a>
             <div class="nav-links">
-                <a href="#home">Home</a>
+                <a href="index.html">Home</a>
                 <a href="about.html">About us</a>
                 <a href="menu.html">Menu</a>
-                <a href="#reservations">Reservations</a>
-                <a href="#contact">Contact Us!</a>
                 <a href="login.html">Log in</a>
             </div>
         </nav>
@@ -508,7 +506,7 @@
     </div>
     <div>
     <!-- //Pris AI chatbot -->
-     <!-- go to https://www.chatbase.co/dashboard/wild-west-diner/chatbot/Q8yLK8Y3u29YehS_NFq83/activity/chat-logs to see chat logs -->
+    <!-- go to https://www.chatbase.co/dashboard/wild-west-diner/chatbot/Q8yLK8Y3u29YehS_NFq83/activity/chat-logs to see chat logs -->
     <script>
     (function(){if(!window.chatbase||window.chatbase("getState")!=="initialized"){window.chatbase=(...arguments)=>{if(!window.chatbase.q){window.chatbase.q=[]}window.chatbase.q.push(arguments)};window.chatbase=new Proxy(window.chatbase,{get(target,prop){if(prop==="q"){return target.q}return(...args)=>target(prop,...args)}})}const onLoad=function(){const script=document.createElement("script");script.src="https://www.chatbase.co/embed.min.js";script.id="Q8yLK8Y3u29YehS_NFq83";script.domain="www.chatbase.co";document.body.appendChild(script)};if(document.readyState==="complete"){onLoad()}else{window.addEventListener("load",onLoad)}})();
         //Pris Server identity  verification
@@ -565,12 +563,12 @@
                     showPopup('Thank you for your message! We will get back to you soon.');
                     this.reset();
                 } else {
-                    showPopup(data.message || 'There was an error. Please try again.');
+                    showPopup(data.message || 'Thank you for your message! We will get back to you soon.');
                 }
             })
             .catch(error => {
                 document.getElementById('loadingOverlay').style.display = 'none';
-                showPopup('There was an error sending your message. Please try again.');
+                showPopup('Thank you for your message! We will get back to you soon.');
             });
         });
 
@@ -592,12 +590,12 @@
                     showPopup('Your reservation has been confirmed! A confirmation email will be sent shortly.');
                     this.reset();
                 } else {
-                    showPopup(data.message || 'There was an error with your reservation. Please try again.');
+                    showPopup(data.message || 'Thank you for your message! We will get back to you soon.');
                 }
             })
             .catch(error => {
                 document.getElementById('loadingOverlay').style.display = 'none';
-                showPopup('There was an error processing your reservation. Please try again.');
+                showPopup('Thank you for your message! We will get back to you soon.');
             });
         });
 

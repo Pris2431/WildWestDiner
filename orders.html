@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-    <title>WildWest Diner Order Management</title>
+    <title>Wild West Diner Order Management</title>
 <style>
     nav {
         max-width: 1200px;
@@ -41,17 +41,38 @@
     .nav-links a:hover {
         color: var(--primary-color);
     }
+    .nav-item {
+            display: flex;
+            text-decoration: none;
+            align-items: center;
+            padding: 12px;
+            margin-bottom: 8px;
+            border-radius: 8px;
+            cursor: pointer;
+            color: white;
+            gap: 12px;
+        }
+        
+        .nav-item:hover {
+            background-color: #123717;
+        }
+        
+        .nav-item.active {
+            background-color: #123137;
+            color: #fff;
+        }
 </style>
 </head>
 
 <body>
     <header>
         <nav>
-            <a href="menu.html" class="logo">WildWestDiner</a>
+            <a href="index.html" class="logo">WildWestDiner</a>
             <div class="nav-links">
-                <a href="menu.html">Home</a>
-                <a href="about.html">About</a>
-                <a href="login.html">Staff Login</a>
+                <a href="index.html">Home</a>
+                <a href="about.html">About us</a>
+                <a href="menu.html">Menu</a>
+                <a href="login.html">Login</a>
             </div>
         </nav>
     </header>
@@ -72,9 +93,10 @@
 
         <!-- Main Content -->
         <div class="main-content">
-            <div class="header">
+            <div>
                 <input type="text" class="search-bar" placeholder="Search orders...">
             </div>
+            <br>
 
             <div class="tabs">
                 <div class="tab active" data-tab="current">Current Orders</div>
@@ -367,7 +389,7 @@
                         quantity: 2,
                         status: 'waiting'
                     }]
-                }]; //Test order samples here
+                }]; 
                 this.render();
             }
 
