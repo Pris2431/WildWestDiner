@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurant Inventory Template</title>
+    <style>
+        /* Previous styles remain the same */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f6f8;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .header h1 {
+            color: #2a2f4f;
+            margin: 0;
+        }
+
+        .share-btn {
+            background-color: #f0f2ff;
+            color: #2a2f4f;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            background-color: #0b8043;
+            padding: 10px;
+        }
+
+        .tab {
+            background-color: transparent;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .tab.active {
+            background-color: #096a36;
+        }
+
+        .inventory-section {
+            display: none;
+        }
+
+        .inventory-section.active {
+            display: block;
+        }
+
+        /* Rest of previous styles */
+        .search-section {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .search-box {
+            display: flex;
+            align-items: center;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 5px 10px;
+            flex: 1;
+        }
+
+        .search-box input {
+            border: none;
+            outline: none;
+            padding: 5px;
+            width: 100%;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        th {
+            background-color: #f8f9fa;
+            color: #2a2f4f;
+            font-weight: 600;
+        }
+
+        .item-type {
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+
+        .type-cutleries { background-color: #ffcdd2; }
+        .type-glasses { background-color: #b3e5fc; }
+        .type-dinnerware { background-color: #c8e6c9; }
+        .type-condiments { background-color: #fff9c4; }
+        .type-grain { background-color: #ffe0b2; }
+        .type-fruit { background-color: #b2dfdb; }
+        .type-meat { background-color: #c8e6c9; }
+        nav {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 1rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    .logo {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--primary-color);
+        text-decoration: none;
+        text-align: left;
+    }
+    
+    .nav-links {
+        display: flex;
+        gap: 2rem;
+    }
+    
+    .nav-links a {
+        text-decoration: none;
+        color: black;
+        font-weight: 500;
+        transition: color 0.3s;
+    }
+    
+    .nav-links a:hover {
+        color: black;
+    }
+    .nav-item {
+            display: flex;
+            text-decoration: none;
+            align-items: center;
+            padding: 12px;
+            margin-bottom: 8px;
+            border-radius: 8px;
+            cursor: pointer;
+            color: black;
+            gap: 12px;
+        }
+        
+        .nav-item:hover {
+            background-color: #123717;
+            color: white;
+        }
+        
+        .nav-item.active {
+            background-color: #123137;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div href="orders.html" class="nav-item" class="nav-links">
+            📋 Orders  
+        </div>
+        <a href="bookingsystem.html" class="nav-item" class="nav-links">
+            🪑 Seating Plans
+        </a>
+        <a href="analysispage.html" class="nav-item" class="nav-links">
+            📈 Top charts
+        </a>
+        <a href="inventory.html" class="nav-item active" class="nav-links">
+            🍔 Inventory
+        </a>
+    </div>
+    <div class="header">
+        <h1>Restaurant Inventory Template</h1>
+        <button class="share-btn">Share</button>
+    </div>
+
+    <div class="tabs">
+        <button class="tab active" data-tab="food">Food Inventory</button>
+        <button class="tab" data-tab="equipment">Equipment Inventory</button>
+    </div>
+
+    <div class="search-section">
+        <div class="search-box">
+            <input type="text" placeholder="Search" id="searchInput">
+        </div>
+    </div>
+
+    <div id="foodInventory" class="inventory-section active">
+        <table>
+            <thead>
+                <tr>
+                    <th><input type="checkbox"></th>
+                    <th>Item Name</th>
+                    <th>Item Type</th>
+                    <th>Amount</th>
+                    <th>Unit Cost</th>
+                    <th>Total Cost</th>
+                </tr>
+            </thead>
+            <tbody id="foodInventoryBody">
+                <!-- Food inventory data will be inserted here -->
+            </tbody>
+        </table>
+    </div>
+
+    <div id="equipmentInventory" class="inventory-section">
+        <table>
+            <thead>
+                <tr>
+                    <th><input type="checkbox"></th>
+                    <th>Item Name</th>
+                    <th>Item Type</th>
+                    <th>Amount</th>
+                    <th>Unit Cost</th>
+                    <th>Total Cost</th>
+                </tr>
+            </thead>
+            <tbody id="equipmentInventoryBody">
+                <!-- Equipment inventory data will be inserted here -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        // Food inventory data
+        const foodData = [
+            { id: 1, name: "Pasta", type: "Grain", amount: 60, unitCost: 2.00, totalCost: 120.00 },
+            { id: 2, name: "Flour", type: "Grain", amount: 60, unitCost: 3.00, totalCost: 180.00 },
+            { id: 3, name: "Rice", type: "Grain", amount: 30, unitCost: 1.99, totalCost: 59.70 },
+            { id: 4, name: "Sunflower Oil", type: "Condiment", amount: 60, unitCost: 4.00, totalCost: 240.00 },
+            { id: 5, name: "Banana", type: "Fruit", amount: 10, unitCost: 2.00, totalCost: 20.00 },
+            { id: 6, name: "Apple", type: "Fruit", amount: 20, unitCost: 1.50, totalCost: 30.00 },
+            { id: 7, name: "Cherry", type: "Fruit", amount: 10, unitCost: 1.70, totalCost: 17.00 },
+            { id: 8, name: "Orange", type: "Fruit", amount: 65, unitCost: 1.00, totalCost: 65.00 },
+            { id: 9, name: "Kiwi", type: "Fruit", amount: 30, unitCost: 1.70, totalCost: 51.00 },
+            { id: 10, name: "Salmon", type: "Meat", amount: 60, unitCost: 2.00, totalCost: 120.00 }
+        ];
+
+        // Equipment inventory data
+        const equipmentData = [
+            { id: 1, name: "Dinner Fork", type: "Cutleries", amount: 50, unitCost: 2.00, totalCost: 100.00 },
+            { id: 2, name: "Dinner Knife", type: "Cutleries", amount: 50, unitCost: 2.50, totalCost: 125.00 },
+            { id: 3, name: "Soup Spoon", type: "Cutleries", amount: 40, unitCost: 2.00, totalCost: 80.00 },
+            { id: 4, name: "Water Glass", type: "Glasses", amount: 60, unitCost: 3.00, totalCost: 180.00 },
+            { id: 5, name: "Wine Glass", type: "Glasses", amount: 40, unitCost: 4.50, totalCost: 180.00 },
+            { id: 6, name: "Dinner Plate", type: "Dinnerware", amount: 50, unitCost: 5.00, totalCost: 250.00 },
+            { id: 7, name: "Soup Bowl", type: "Dinnerware", amount: 40, unitCost: 4.00, totalCost: 160.00 },
+            { id: 8, name: "Salt", type: "Condiments", amount: 20, unitCost: 0.40, totalCost: 8.00 },
+            { id: 9, name: "Pepper", type: "Condiments", amount: 20, unitCost: 0.60, totalCost: 12.00 },
+            { id: 10, name: "Ketchup", type: "Condiments", amount: 25, unitCost: 1.80, totalCost: 45.00 }
+        ];
+
+        function renderInventory(data, targetId) {
+            const tbody = document.getElementById(targetId);
+            tbody.innerHTML = '';
+
+            data.forEach(item => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td><input type="checkbox"></td>
+                    <td>${item.name}</td>
+                    <td><span class="item-type type-${item.type.toLowerCase()}">${item.type}</span></td>
+                    <td>${item.amount}</td>
+                    <td>$${item.unitCost.toFixed(2)}</td>
+                    <td>$${item.totalCost.toFixed(2)}</td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        // Tab switching functionality
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                // Remove active class from all tabs and sections
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.inventory-section').forEach(s => s.classList.remove('active'));
+                
+                // Add active class to clicked tab and corresponding section
+                tab.classList.add('active');
+                const targetSection = tab.dataset.tab === 'food' ? 'foodInventory' : 'equipmentInventory';
+                document.getElementById(targetSection).classList.add('active');
+            });
+        });
+
+        // Search functionality
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            const searchTerm = e.target.value.toLowerCase();
+            const activeTab = document.querySelector('.tab.active').dataset.tab;
+            
+            if (activeTab === 'food') {
+                const filteredFood = foodData.filter(item => 
+                    item.name.toLowerCase().includes(searchTerm) ||
+                    item.type.toLowerCase().includes(searchTerm)
+                );
+                renderInventory(filteredFood, 'foodInventoryBody');
+            } else {
+                const filteredEquipment = equipmentData.filter(item => 
+                    item.name.toLowerCase().includes(searchTerm) ||
+                    item.type.toLowerCase().includes(searchTerm)
+                );
+                renderInventory(filteredEquipment, 'equipmentInventoryBody');
+            }
+        });
+
+        // Initial render
+        renderInventory(foodData, 'foodInventoryBody');
+        renderInventory(equipmentData, 'equipmentInventoryBody');
+    </script>
+</body>
+</html>

@@ -89,6 +89,9 @@
             <a href="analysispage.html" class="nav-item" class="nav-links">
                 📈 Top charts
             </a>
+            <a href="inventory.html" class="nav-item" class="nav-links">
+                🍔 Inventory
+            </a>
         </div>
 
         <!-- Main Content -->
@@ -116,6 +119,9 @@
                 this.expandedOrders = new Set();
                 this.currentTab = 'current';
                 this.prices = {
+                    'Bakwa Chips': 32.95,
+                    'Fanta Grape': 32.95,
+                    'Chocolate Lava Cake': 32.95,
                     'Sizzling Steak': 32.95,
                     'Grilled Chicken': 19.95,
                     'Beef Burger': 16.95,
@@ -140,7 +146,7 @@
             init() {
                 this.currentOrders = [{
                     id: 1,
-                    table: 'Table 1',
+                    table: 'Take-Away',
                     time: '10:23am',
                     items: [{
                         name: 'Beef Burger',
@@ -151,29 +157,22 @@
                         quantity: 1,
                         status: 'waiting'
                     }, {
-                        name: 'Lamb Chop',
+                        name: 'Spaghetti Bolognese',
                         quantity: 2,
                         status: 'waiting'
                     }, {
-                        name: 'Sizzling Steak',
-                        quantity: 1,
+                        name: 'Stuffed Mushrooms',
+                        quantity: 2,
                         status: 'waiting'
                     }, {
                         name: 'Grilled Chicken',
                         quantity: 1,
-                        status: 'waiting'
-                    }, {
-                        name: 'Cheese Platter',
-                        quantity: 3,
-                        status: 'waiting'
-                    }, {
-                        name: 'Classic Bruschetta',
-                        quantity: 2,
-                        status: 'waiting'
-                    }]
+                        status: 'waiting'}
+                    
+]
                 }, {
                     id: 2,
-                    table: 'Table 2',
+                    table: 'Take-Away',
                     time: '10:24am',
                     items: [{
                         name: 'Beef Burger',
@@ -194,36 +193,7 @@
                     }]
                 }, {
                     id: 3,
-                    table: 'Take-Away',
-                    time: '10:24am',
-                    items: [{
-                        name: 'Beef Burger',
-                        quantity: 10,
-                        status: 'waiting'
-                    }, {
-                        name: 'Mozzarella Sticks',
-                        quantity: 4,
-                        status: 'waiting'
-                    }, {
-                        name: 'Spaghetti Bolognese',
-                        quantity: 5,
-                        status: 'waiting'
-                    }, {
-                        name: 'Stuffed Mushrooms',
-                        quantity: 7,
-                        status: 'waiting'
-                    }, {
-                        name: 'Cheese Platter',
-                        quantity: 5,
-                        status: 'waiting'
-                    }, {
-                        name: 'Buffalo Wings',
-                        quantity: 5,
-                        status: 'waiting'
-                    }]
-                }, {
-                    id: 4,
-                    table: 'Table 3',
+                    table: 'Table 1',
                     time: '10:24am',
                     items: [{
                         name: 'Beef Burger',
@@ -239,6 +209,43 @@
                         status: 'waiting'
                     }, {
                         name: 'Stuffed Mushrooms',
+                        quantity: 2,
+                        status: 'waiting'
+                    }, {
+                        name: 'Lamb Chop',
+                        quantity: 2,
+                        status: 'waiting'
+                    }, {
+                        name: 'Classic Bruschetta',
+                        quantity: 2,
+                        status: 'waiting'
+                    }, {
+                        name: 'Cheese Platter',
+                        quantity: 2,
+                        status: 'waiting'
+                    }]
+                }, {
+                    id: 4,
+                    table: 'Table 3',
+                    time: '10:24am',
+                    items: [{
+                        name: 'Fish and Chips',
+                        quantity: 1,
+                        status: 'waiting'
+                    }, {
+                        name: 'Spaghetti Bolognese',
+                        quantity: 2,
+                        status: 'waiting'
+                    }, {
+                        name: 'Stuffed Mushrooms',
+                        quantity: 2,
+                        status: 'waiting'
+                    }, {
+                        name: 'Lamb Chop',
+                        quantity: 2,
+                        status: 'waiting'
+                    }, {
+                        name: 'Cheese Platter',
                         quantity: 2,
                         status: 'waiting'
                     }]
@@ -247,146 +254,24 @@
                     table: 'Take-Away',
                     time: '10:24am',
                     items: [{
-                        name: 'Beef Burger',
+                        name: 'Bakwa Chips',
                         quantity: 1,
                         status: 'waiting'
                     }, {
-                        name: 'Fish and Chips',
+                        name: 'Sizzling Steak',
                         quantity: 1,
-                        status: 'waiting'
-                    }, {
-                        name: 'Spaghetti Bolognese',
-                        quantity: 2,
                         status: 'waiting'
                     }, {
                         name: 'Stuffed Mushrooms',
-                        quantity: 2,
-                        status: 'waiting'
-                    }]
-                }, {
-                    id: 6,
-                    table: 'Take-Away',
-                    time: '10:24am',
-                    items: [{
-                        name: 'Beef Burger',
                         quantity: 1,
                         status: 'waiting'
                     }, {
-                        name: 'Fish and Chips',
+                        name: 'Chocolate Lava Cake',
                         quantity: 1,
                         status: 'waiting'
                     }, {
-                        name: 'Spaghetti Bolognese',
-                        quantity: 2,
-                        status: 'waiting'
-                    }, {
-                        name: 'Stuffed Mushrooms',
-                        quantity: 2,
-                        status: 'waiting'
-                    }]
-                }, {
-                    id: 7,
-                    table: 'Table 4',
-                    time: '10:24am',
-                    items: [{
-                        name: 'Beef Burger',
+                        name: 'Fanta Grape',
                         quantity: 1,
-                        status: 'waiting'
-                    }, {
-                        name: 'Fish and Chips',
-                        quantity: 1,
-                        status: 'waiting'
-                    }, {
-                        name: 'Spaghetti Bolognese',
-                        quantity: 2,
-                        status: 'waiting'
-                    }, {
-                        name: 'Stuffed Mushrooms',
-                        quantity: 2,
-                        status: 'waiting'
-                    }]
-                }, {
-                    id: 8,
-                    table: 'Table 5',
-                    time: '10:24am',
-                    items: [{
-                        name: 'Beef Burger',
-                        quantity: 1,
-                        status: 'waiting'
-                    }, {
-                        name: 'Fish and Chips',
-                        quantity: 1,
-                        status: 'waiting'
-                    }, {
-                        name: 'Spaghetti Bolognese',
-                        quantity: 2,
-                        status: 'waiting'
-                    }, {
-                        name: 'Stuffed Mushrooms',
-                        quantity: 2,
-                        status: 'waiting'
-                    }]
-                }, {
-                    id: 9,
-                    table: 'Take-Away',
-                    time: '10:24am',
-                    items: [{
-                        name: 'Beef Burger',
-                        quantity: 1,
-                        status: 'waiting'
-                    }, {
-                        name: 'Fish and Chips',
-                        quantity: 1,
-                        status: 'waiting'
-                    }, {
-                        name: 'Spaghetti Bolognese',
-                        quantity: 2,
-                        status: 'waiting'
-                    }, {
-                        name: 'Stuffed Mushrooms',
-                        quantity: 2,
-                        status: 'waiting'
-                    }]
-                }, {
-                    id: 10,
-                    table: 'Table 6',
-                    time: '10:24am',
-                    items: [{
-                        name: 'Beef Burger',
-                        quantity: 1,
-                        status: 'waiting'
-                    }, {
-                        name: 'Fish and Chips',
-                        quantity: 1,
-                        status: 'waiting'
-                    }, {
-                        name: 'Spaghetti Bolognese',
-                        quantity: 2,
-                        status: 'waiting'
-                    }, {
-                        name: 'Stuffed Mushrooms',
-                        quantity: 2,
-                        status: 'waiting'
-                    }]
-                }, {
-                    id: 11,
-                    table: 'Take-Away',
-                    time: '10:24am',
-                    items: [{
-                        name: 'Beef Burger',
-                        quantity: 1,
-                        status: 'waiting'
-                    }, {
-                        name: 'Fish and Chips',
-                        quantity: 1,
-                        status: 'waiting'
-                    }, {
-                        name: 'Spaghetti Bolognese',
-                        quantity: 2,
-                        status: 'waiting'
-                    }, {
-                        name: 'Stuffed Mushrooms',
-                        quantity: 2,
                         status: 'waiting'
                     }]
                 }]; 

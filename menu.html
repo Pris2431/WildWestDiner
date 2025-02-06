@@ -351,6 +351,18 @@
                 margin: 5% auto;
             }
         }
+        #order-type {
+            width: 100%;
+            padding: 0.75rem;
+            margin-top: 1rem;
+            border-radius: var(--border-radius);
+            border: 1px solid #ccc;
+            font-size: 1rem;
+            font-weight: 500;
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--primary-color);
+            color: white;
+        }
     </style>
 </head>
 <body>
@@ -425,6 +437,10 @@
         </script>
         <div class="cart" id="cart">
             <h2>Checkout</h2>
+            <select id="order-type" name="order-type">
+                <option value="dine-in">Dine In</option>
+                <option value="take-away">Take Away</option>
+            </select>   
             <ul id="cartItems"></ul>
             <p>Total: $<span id="cartTotal">0.00</span></p>
             <div class="payment-options" id="stripeButtonContainer">
@@ -473,12 +489,12 @@
             ],
             //add description in drinks
             drinks: [
-                { name: 'Fanta Grape', description: 'Premium cut steak with signature marinade', price: 32.95, image: 'images/Drinks/fantagrape.jpg' },
-                { name: 'Sunset Cocktail', description: 'Herb-marinated chicken with special sauce', price: 19.95, image: 'images/Drinks/sunsetcocktail.jpg' },
-                { name: 'Blue Lagoon', description: 'Herb-marinated chicken with special sauce', price: 19.95, image: 'images/Drinks/bluelagoon.jpg' },
-                { name: 'Bloody Mary', description: 'Classic beef burger with cheese and sauce', price: 16.95, image: 'images/Drinks/bloodymary.jpg' },
-                { name: 'Coca Cola', description: 'Herb-marinated chicken with special sauce', price: 19.95, image: 'images/Drinks/coke.jpg' },
-                { name: 'Cantera Negra', description: 'An incredibly balanced blend of carefully selected Blue Weber Agave.', price: 16.95, image: 'images/Drinks/tequila.jpg' }
+                { name: 'Fanta Grape', description: 'Premium cut steak with signature marinade', price: 2.95, image: 'images/Drinks/fantagrape.jpg' },
+                { name: 'Sunset Cocktail', description: 'Herb-marinated chicken with special sauce', price: 12.95, image: 'images/Drinks/sunsetcocktail.jpg' },
+                { name: 'Blue Lagoon', description: 'Herb-marinated chicken with special sauce', price: 12.95, image: 'images/Drinks/bluelagoon.jpg' },
+                { name: 'Bloody Mary', description: 'Classic beef burger with cheese and sauce', price: 14.95, image: 'images/Drinks/bloodymary.jpg' },
+                { name: 'Coca Cola', description: 'Herb-marinated chicken with special sauce', price: 2.95, image: 'images/Drinks/coke.jpg' },
+                { name: 'Cantera Negra', description: 'An incredibly balanced blend of carefully selected Blue Weber Agave.', price: 162.95, image: 'images/Drinks/tequila.jpg' }
             ]
         };
 
