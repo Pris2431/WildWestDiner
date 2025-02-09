@@ -15,6 +15,7 @@ db = client.get_database_by_api_endpoint(
     keyspace="orders_keyspace",
 )
 orders_collection = db.get_collection("orders", keyspace="orders_keyspace")
+print(f"Connected to Astra DB: {db.list_collection_names()}")
 
 @socketio.on('connect')
 def handle_connect():
@@ -36,6 +37,28 @@ def handle_item_status_update(data):
     
     # Broadcast update to all clients
     emit('orderStatusUpdate', {'order': updated_order}, broadcast=True)
+
+@socketio.on('deleteOrder')
+def handle_delete_order(data):
+    order_uuid = data.get('orderUuid')
+    if order_uuid:
+        try:
+            print(f"Attempting to delete order: {order_uuid}")
+            # Perform your deletion logic
+            result = orders_collection.delete_one({"order_uuid": order_uuid})
+            
+            if result.deleted_count > 0:
+                print(f"Deleted order {order_uuid}")
+                socketio.emit('orderDeleted', {'orderUuid': order_uuid}, broadcast=True)
+            else:
+                print(f"No order found with UUID {order_uuid}")
+                emit('error', {'message': 'Order not found in database'})
+        except Exception as e:
+            print(f"Deletion error: {str(e)}")
+            emit('error', {'message': 'Database error occurred'})
+    else:
+        print("No orderUuid received")
+        emit('error', {'message': 'Order UUID not provided'})
 
 # Handle OPTIONS requests for CORS preflight
 @app.route("/", methods=["OPTIONS"])
