@@ -5,43 +5,45 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer"
+    />
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <title>Wild West Diner Order Management</title>
-<style>
-    nav {
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 1rem;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-    
-    .logo {
-        font-size: 1.5rem;
-        font-weight: 700;
-        color: var(--primary-color);
-        text-decoration: none;
-        text-align: left;
-    }
-    
-    .nav-links {
-        display: flex;
-        gap: 2rem;
-    }
-    
-    .nav-links a {
-        text-decoration: none;
-        color: var(--text-color);
-        font-weight: 500;
-        transition: color 0.3s;
-    }
-    
-    .nav-links a:hover {
-        color: var(--primary-color);
-    }
-    .nav-item {
+    <style>
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-decoration: none;
+            text-align: left;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+        
+        .nav-item {
             display: flex;
             text-decoration: none;
             align-items: center;
@@ -61,7 +63,11 @@
             background-color: #123137;
             color: #fff;
         }
-</style>
+    </style>
+    <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+    <script>
+        const socket = io();
+    </script>
 </head>
 
 <body>
@@ -81,7 +87,7 @@
         <!-- Sidebar -->
         <div class="sidebar">
             <div href="orders.html" class="nav-item active" class="nav-links">
-                📋 Orders  
+                📋 Orders
             </div>
             <a href="bookingsystem.html" class="nav-item" class="nav-links">
                 🪑 Seating Plans
@@ -113,18 +119,32 @@
         </div>
     </div>
 
+    <script src="orders.js"></script>
     <script>
         class OrderSystem {
             constructor() {
+                this.socket = io();
+                this.socket.on('orderDeleted', (data) => {
+                    this.removeCompletedOrder(data.orderId);
+                    this.render();
+                });
+                window.parent.postMessage({
+                    type: 'initializeOrderSystem'
+                }, '*');
+                window.addEventListener('message', (event) => {
+                    if (event.data.type === 'orderUpdate') {
+                        this.currentOrders = event.data.orders;
+                        this.render();
+                    }
+                });
                 this.statusCycle = ['waiting', 'preparing', 'ready', 'completed'];
                 this.currentOrders = [];
                 this.completedOrders = [];
                 this.expandedOrders = new Set();
                 this.currentTab = 'current';
+                this.orderCounter = 1; // Initialize order counter
                 this.prices = {
-                    'Bakwa Chips': 32.95,
-                    'Fanta Grape': 32.95,
-                    'Chocolate Lava Cake': 32.95,
+                    // Menu items and their prices
                     'Sizzling Steak': 32.95,
                     'Grilled Chicken': 19.95,
                     'Beef Burger': 16.95,
@@ -140,201 +160,29 @@
                     'Chocolate Lava Cake': 8.95,
                     'New York Cheesecake': 7.95,
                     'Apple Pie': 6.95
-                        //Menu here
                 };
                 this.init();
                 this.setupEventListeners();
             }
 
             init() {
-                this.currentOrders = [{
-                    id: 1,
-                    table: 'Take-Away',
-                    time: '10:23am',
-                    items: [{
-                        name: 'Beef Burger',
-                        quantity: 1,
-                        status: 'waiting'
-                    }, {
-                        name: 'Fish and Chips',
-                        quantity: 1,
-                        status: 'waiting'
-                    }, {
-                        name: 'Spaghetti Bolognese',
-                        quantity: 2,
-                        status: 'waiting'
-                    }, {
-                        name: 'Stuffed Mushrooms',
-                        quantity: 2,
-                        status: 'waiting'
-                    }, {
-                        name: 'Grilled Chicken',
-                        quantity: 1,
-                        status: 'waiting'}
-                    
-]
-                }, {
-                    id: 2,
-                    table: 'Take-Away',
-                    time: '10:24am',
-                    items: [{
-                        name: 'Beef Burger',
-                        quantity: 1,
-                        status: 'waiting'
-                    }, {
-                        name: 'Fish and Chips',
-                        quantity: 1,
-                        status: 'waiting'
-                    }, {
-                        name: 'Spaghetti Bolognese',
-                        quantity: 2,
-                        status: 'waiting'
-                    }, {
-                        name: 'Stuffed Mushrooms',
-                        quantity: 2,
-                        status: 'waiting'
-                    }]
-                }, {
-                    id: 3,
-                    table: 'Table 1',
-                    time: '10:24am',
-                    items: [{
-                        name: 'Beef Burger',
-                        quantity: 1,
-                        status: 'waiting'
-                    }, {
-                        name: 'Fish and Chips',
-                        quantity: 1,
-                        status: 'waiting'
-                    }, {
-                        name: 'Spaghetti Bolognese',
-                        quantity: 2,
-                        status: 'waiting'
-                    }, {
-                        name: 'Stuffed Mushrooms',
-                        quantity: 2,
-                        status: 'waiting'
-                    }, {
-                        name: 'Lamb Chop',
-                        quantity: 2,
-                        status: 'waiting'
-                    }, {
-                        name: 'Classic Bruschetta',
-                        quantity: 2,
-                        status: 'waiting'
-                    }, {
-                        name: 'Cheese Platter',
-                        quantity: 2,
-                        status: 'waiting'
-                    }]
-                }, {
-                    id: 4,
-                    table: 'Table 3',
-                    time: '10:24am',
-                    items: [{
-                        name: 'Fish and Chips',
-                        quantity: 1,
-                        status: 'waiting'
-                    }, {
-                        name: 'Spaghetti Bolognese',
-                        quantity: 2,
-                        status: 'waiting'
-                    }, {
-                        name: 'Stuffed Mushrooms',
-                        quantity: 2,
-                        status: 'waiting'
-                    }, {
-                        name: 'Lamb Chop',
-                        quantity: 2,
-                        status: 'waiting'
-                    }, {
-                        name: 'Cheese Platter',
-                        quantity: 2,
-                        status: 'waiting'
-                    }]
-                }, {
-                    id: 5,
-                    table: 'Take-Away',
-                    time: '10:24am',
-                    items: [{
-                        name: 'Bakwa Chips',
-                        quantity: 1,
-                        status: 'waiting'
-                    }, {
-                        name: 'Sizzling Steak',
-                        quantity: 1,
-                        status: 'waiting'
-                    }, {
-                        name: 'Stuffed Mushrooms',
-                        quantity: 1,
-                        status: 'waiting'
-                    }, {
-                        name: 'Chocolate Lava Cake',
-                        quantity: 1,
-                        status: 'waiting'
-                    }, {
-                        name: 'Fanta Grape',
-                        quantity: 1,
-                        status: 'waiting'
-                    }]
-                }]; 
+                this.currentOrders = currentOrders.map(order => ({
+                    ...order,
+                    // Convert time string to Date object if needed
+                    time: new Date(order.time).toLocaleTimeString('en-US', {
+                        hour: 'numeric',
+                        minute: '2-digit',
+                        hour12: true
+                    }),
+                    id: this.generateOrderNumber() // Generate a padded order number
+                }));
                 this.render();
             }
 
-            setupEventListeners() {
-                document.getElementById('ordersContainer').addEventListener('click', (e) => {
-                    const statusButton = e.target.closest('.status-button');
-                    const actionButton = e.target.closest('.action-button');
-                    const removeButton = e.target.closest('.remove-button');
-
-                    if (statusButton) {
-                        e.preventDefault();
-                        const orderId = parseInt(statusButton.closest('.order-card').querySelector('h3').textContent.split('#')[1]);
-                        const itemIndex = Array.from(statusButton.closest('.order-items').children)
-                            .indexOf(statusButton.closest('.order-item'));
-                        const order = this.currentOrders.find(o => o.id === orderId);
-
-                        if (order) {
-                            const newStatus = this.getNextStatus(order.items[itemIndex].status);
-                            order.items[itemIndex].status = newStatus;
-
-                            const orderCard = statusButton.closest('.order-card');
-                            orderCard.outerHTML = this.generateOrderCard(order);
-                        }
-                    } else if (actionButton && !actionButton.classList.contains('remove-button')) {
-                        const orderId = parseInt(actionButton.closest('.order-card').querySelector('h3').textContent.split('#')[1]);
-                        const order = this.currentOrders.find(o => o.id === orderId);
-
-                        if (this.isOrderComplete(order)) {
-                            this.completeOrder(orderId);
-                            this.render();
-                        } else if (this.getTotalItemCount(order) > 3) {
-                            this.toggleOrderExpansion(orderId);
-                            this.render();
-                        }
-                    } else if (removeButton) {
-                        const orderId = parseInt(removeButton.closest('.order-card').querySelector('h3').textContent.split('#')[1]);
-                        const orderCard = removeButton.closest('.order-card');
-                        orderCard.classList.add('removing');
-
-                        this.removeCompletedOrder(orderId);
-
-                        setTimeout(() => {
-                            if (orderCard.parentNode) {
-                                orderCard.parentNode.removeChild(orderCard);
-                            }
-                        }, 1000);
-                    }
-                });
-
-                document.querySelector('.tabs').addEventListener('click', (e) => {
-                    if (e.target.classList.contains('tab')) {
-                        document.querySelector('.tab.active').classList.remove('active');
-                        e.target.classList.add('active');
-                        this.currentTab = e.target.dataset.tab;
-                        this.render();
-                    }
-                });
+            generateOrderNumber() {
+                const orderNumber = String(this.orderCounter).padStart(4, '0');
+                this.orderCounter += 1; // Increment order counter
+                return orderNumber;
             }
 
             calculateOrderTotal(items) {
@@ -368,6 +216,12 @@
                 if (order) {
                     order.items[itemIndex].status = this.getNextStatus(order.items[itemIndex].status);
                     this.render();
+
+                    // Post the updated order to tracking.html
+                    window.parent.postMessage({
+                        type: 'orderUpdate',
+                        orders: this.currentOrders // Or send the specific updated order only if preferred
+                    }, '*');
                 }
             }
 
@@ -389,9 +243,6 @@
                 if (orderIndex !== -1) {
                     const completedOrder = this.currentOrders.splice(orderIndex, 1)[0];
                     this.completedOrders.push(completedOrder);
-                    /*this.currentOrders.forEach((order, index) => {
-                        order.id = index + 1;
-                    }); //To change order number*/
                     this.expandedOrders.delete(orderId);
                     this.render();
                 }
@@ -411,135 +262,151 @@
                     const isCompletedTab = this.currentTab === 'completed';
                     const displayItems = isCompletedTab ? order.items : (isExpanded ? order.items : order.items.slice(0, 3));
                     const orderTotal = this.calculateOrderTotal(order.items);
-                    const isTakeAway = !isCompletedTab && order.table === 'Take-Away'; //isCompletedTab *below* checks which tab we are in and displays header accordingly)
+                    const isTakeAway = !isCompletedTab && order.table === 'Take-Away';
 
                     return `
-                <div class="order-card">
-                    <div class="order-header">
-                        <div>
-                            ${isCompletedTab ? 
-                                `<h3>#${String(order.id).padStart(4, '0')}</h3>` : 
-                                `<h3>#${String(order.id).padStart(4, '0')}</h3>
-                                <h4>${order.table}</h4>`
-                            } 
-                            <div class="order-time">${order.time}</div>
+          <div class="order-card">
+            <div class="order-header">
+                <div>
+                    ${isCompletedTab ? 
+                        `<h3>#${order.id}</h3>` : 
+                        `<h3>#${order.id}</h3>
+                        <h4>${order.table}</h4>`
+                    } 
+                    <div class="order-time">${order.time}</div>
+                </div>
+                <div class="header-right">
+                    <span class="order-tag ${isTakeAway ? 'take-away' : 'dine-in'}">${isTakeAway ? 'Take-Away' : 'Dine-In'}</span>
+                </div>
+            </div>
+            <div class="items-count">${totalItems} Items</div>
+            <ul class="order-items">
+                ${displayItems.map((item, index) => `
+                    <li class="order-item ${item.status === 'completed' ? 'completed' : ''}">
+                        <div class="order-item-details">
+                            <span>${item.name} x${item.quantity}</span>
+                            <span>$${(this.prices[item.name] * item.quantity).toFixed(2)}</span>
                         </div>
-                        <div class="header-right">
-                            <span class="order-tag ${isTakeAway ? 'take-away' : 'dine-in'}">${isTakeAway ? 'Take-Away' : 'Dine-In'}</span>
-                        </div>
-                    </div>
-                    <div class="items-count">${totalItems} Items</div>
-                    <ul class="order-items">
-                        ${displayItems.map((item, index) => `
-                            <li class="order-item ${item.status === 'completed' ? 'completed' : ''}">
-                                <div class="order-item-details">
-                                    <span>${item.name} x${item.quantity}</span>
-                                    <span>$${(this.prices[item.name] * item.quantity).toFixed(2)}</span>
-                                </div>
-                                ${!isCompletedTab ? `
-                                    <button class="status-button status-${item.status}">
-                                        ${item.status}
-                                    </button>
-                                ` : ''}
-                            </li>
-                        `).join('')}
-                    </ul>
-                    <div class="order-total">
-                        <span>Total</span>
-                        <span>$${orderTotal.toFixed(2)}</span>
-                    </div>
-                    ${!isCompletedTab ? `
-                        <button class="action-button ${isComplete ? 'complete' : ''} ${hasMoreThanThreeItems && !isComplete ? 'expandable' : ''}">
-                            ${isComplete ? 'Complete Order' : 
-                            (hasMoreThanThreeItems ? 
-                                (isExpanded ? 'Show Less' : `Show More (${order.items.length - 3} items)`) : 
-                                '')}
-                        </button>
-                        ` : `
-                            <button class="action-button remove-button">Remove Order</button>
-                        `}
-                    </div>
-                `;
-            }
+                        ${!isCompletedTab ? `
+                            <button class="status-button status-${item.status}">
+                                ${item.status}
+                            </button>
+                        ` : ''}
+                    </li>
+                `).join('')}
+            </ul>
+            <div class="order-total">
+                <span>Total</span>
+                <span>$${orderTotal.toFixed(2)}</span>
+            </div>
+            ${!isCompletedTab ? `
+                <button class="action-button ${isComplete ? 'complete' : ''} ${hasMoreThanThreeItems && !isComplete ? 'expandable' : ''}">
+                    ${isComplete ? 'Complete Order' : 
+                    (hasMoreThanThreeItems ? 
+                        (isExpanded ? 'Show Less' : `Show More (${order.items.length - 3} items)`) : 
+                        '')}
+                </button>
+                ` : `
+                    <button class="action-button remove-button">Remove Order</button>
+                `}
+            </div>
+        `;
+    }
 
-            setupEventListeners() {
-                document.getElementById('ordersContainer').addEventListener('click', (e) => {
-                    const statusButton = e.target.closest('.status-button');
-                    const actionButton = e.target.closest('.action-button');
-                    const removeButton = e.target.closest('.remove-button');
+    setupEventListeners() {
+        document.getElementById('ordersContainer').addEventListener('click', (e) => {
+            const statusButton = e.target.closest('.status-button');
+            const actionButton = e.target.closest('.action-button');
+            const removeButton = e.target.closest('.remove-button');
 
-                    if (statusButton) {
-                        e.preventDefault();
-                        const orderId = parseInt(statusButton.closest('.order-card').querySelector('h3').textContent.split('#')[1]);
-                        const itemIndex = Array.from(statusButton.closest('.order-items').children)
-                            .indexOf(statusButton.closest('.order-item'));
-                        const order = this.currentOrders.find(o => o.id === orderId);
-                        if (order) {
-                            const newStatus = this.getNextStatus(order.items[itemIndex].status);
-                            order.items[itemIndex].status = newStatus;
-                            
-                            statusButton.className = `status-button status-${newStatus}`;
-                            statusButton.textContent = newStatus;
-                            
-                            const orderItem = statusButton.closest('.order-item');
-                            if (newStatus === 'completed') {
-                                orderItem.classList.add('completed');
-                            } else {
-                                orderItem.classList.remove('completed');
-                            }
-                            
-                            if (this.isOrderComplete(order)) {
-                                const actionButton = statusButton.closest('.order-card').querySelector('.action-button');
-                                if (actionButton) {
-                                    actionButton.classList.add('complete');
-                                    actionButton.textContent = 'Complete Order';
-                                }
-                            }
-                        }
-                    } else if (actionButton && !actionButton.classList.contains('remove-button')) {
-                        const orderId = parseInt(actionButton.closest('.order-card').querySelector('h3').textContent.split('#')[1]);
-                        const order = this.currentOrders.find(o => o.id === orderId);
-                        if (this.isOrderComplete(order)) {
-                            this.completeOrder(orderId);
-                            this.render();
-                        } else if (this.getTotalItemCount(order) > 3) {
-                            this.toggleOrderExpansion(orderId);
-                            const orderCard = actionButton.closest('.order-card');
-                            orderCard.outerHTML = this.generateOrderCard(order);
-                        }
-                    } else if (removeButton) {
-                            const orderId = parseInt(removeButton.closest('.order-card').querySelector('h3').textContent.split('#')[1]);
-                            const orderCard = removeButton.closest('.order-card');
-                            orderCard.classList.add('removing');
-
-                            this.removeCompletedOrder(orderId);
-
-                            setTimeout(() => {
-                                if (orderCard.parentNode) {
-                                    orderCard.parentNode.removeChild(orderCard);
-                                }
-                            }, 1000); //animation portion (can adjust time to fade out. probably wont change animations anymore bezier is abit complicated)
+            if (statusButton) {
+                e.preventDefault();
+                const orderId = statusButton.closest('.order-card').querySelector('h3').textContent.split('#')[1];
+                const itemIndex = Array.from(statusButton.closest('.order-items').children)
+                    .indexOf(statusButton.closest('.order-item'));
+                const order = this.currentOrders.find(o => o.id === orderId);
+                if (order) {
+                    const newStatus = this.getNextStatus(order.items[itemIndex].status);
+                    order.items[itemIndex].status = newStatus;
+                    
+                    statusButton.className = `status-button status-${newStatus}`;
+                    statusButton.textContent = newStatus;
+                    
+                    const orderItem = statusButton.closest('.order-item');
+                    if (newStatus === 'completed') {
+                        orderItem.classList.add('completed');
+                    } else {
+                        orderItem.classList.remove('completed');
                     }
-                });
-
-                document.querySelector('.tabs').addEventListener('click', (e) => {
-                    if (e.target.classList.contains('tab')) {
-                        document.querySelector('.tab.active').classList.remove('active');
-                        e.target.classList.add('active');
-                        this.currentTab = e.target.dataset.tab;
-                        this.render();
+                    
+                    if (this.isOrderComplete(order)) {
+                        const actionButton = statusButton.closest('.order-card').querySelector('.action-button');
+                        if (actionButton) {
+                            actionButton.classList.add('complete');
+                            actionButton.textContent = 'Complete Order';
+                        }
                     }
-                });
-            }
-
-            removeCompletedOrder(orderId) {
-                const orderIndex = this.completedOrders.findIndex(order => order.id === orderId);
-                if (orderIndex !== -1) {
-                    this.completedOrders.splice(orderIndex, 1);
                 }
-            }
-}
+            } else if (actionButton && !actionButton.classList.contains('remove-button')) {
+                const orderId = actionButton.closest('.order-card').querySelector('h3').textContent.split('#')[1];
+                const order = this.currentOrders.find(o => o.id === orderId);
+                if (this.isOrderComplete(order)) {
+                    this.completeOrder(orderId);
+                    this.render();
+                } else if (this.getTotalItemCount(order) > 3) {
+                    this.toggleOrderExpansion(orderId);
+                    const orderCard = actionButton.closest('.order-card');
+                    orderCard.outerHTML = this.generateOrderCard(order);
+                }
+            } // In setupEventListeners()
+else if (removeButton) {
+    const orderCard = removeButton.closest('.order-card');
+    const orderId = orderCard.querySelector('h3').textContent.split('#')[1];
+    
+    if (confirm('Permanently delete this order?')) {
+        console.log('Attempting to delete order:', orderId); // Debug log
+        socket.emit('deleteOrder', orderId);
+        
+        // Optimistic UI update
+        orderCard.classList.add('removing');
+        
+        // Add error handling
+        const timeout = setTimeout(() => {
+            orderSystem.removeCompletedOrder(orderId);
+            orderCard.parentNode.removeChild(orderCard);
+        }, 1000);
 
+        // Handle deletion confirmation
+        socket.once('orderDeleted', (data) => {
+            if (data.orderId === orderId) {
+                console.log('Server confirmed deletion');
+                clearTimeout(timeout);
+                orderSystem.removeCompletedOrder(orderId);
+                orderCard.parentNode.removeChild(orderCard);
+            }
+        });
+
+        // Handle errors
+        socket.once('error', (error) => {
+            console.error('Deletion error:', error.message);
+            orderCard.classList.remove('removing');
+            alert(`Deletion failed: ${error.message}`);
+        });
+    }
+}
+        });
+
+        document.querySelector('.tabs').addEventListener('click', (e) => {
+            if (e.target.classList.contains('tab')) {
+                document.querySelector('.tab.active').classList.remove('active');
+                e.target.classList.add('active');
+                this.currentTab = e.target.dataset.tab;
+                this.render();
+            }
+        });
+    }
+}
+        
 const orderSystem = new OrderSystem();
     </script>
 </body>
