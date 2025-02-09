@@ -133,10 +133,82 @@
         .test-controls button:hover {
             background-color: #1a4d3d;
         }
+        
+        nav {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 1rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    .logo {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--primary-color);
+        text-decoration: none;
+        text-align: left;
+    }
+    
+    .nav-links {
+        display: flex;
+        gap: 2rem;
+    }
+    
+    .nav-links a {
+        text-decoration: none;
+        color: var(--text-color);
+        font-weight: 500;
+        transition: color 0.3s;
+    }
+    
+    .nav-links a:hover {
+        color: var(--primary-color);
+    }
+    .nav-item {
+            display: flex;
+            text-decoration: none;
+            align-items: center;
+            padding: 12px;
+            margin-bottom: 8px;
+            border-radius: 8px;
+            cursor: pointer;
+            color: white;
+            gap: 12px;
+        }
+        
+        .nav-item:hover {
+            background-color: #123717;
+        }
+        
+        .nav-item.active {
+            background-color: #123137;
+            color: #fff;
+        }
     </style>
 </head>
 
 <body>
+    <div class="container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div href="orders.html" class="nav-item active" class="nav-links">
+                📋 Orders  
+            </div>
+            <a href="bookingsystem.html" class="nav-item" class="nav-links">
+                🪑 Seating Plans
+            </a>
+            <a href="analysispage.html" class="nav-item" class="nav-links">
+                📈 Top charts
+            </a>
+            <a href="inventory.html" class="nav-item" class="nav-links">
+                🍔 Inventory
+            </a>
+            <a href="tracking.html" class="nav-item" class="nav-links">
+                📦 Tracking
+                </a>
+        </div>
     <div class="logo">
         🤠 WildWest Diner
     </div>
