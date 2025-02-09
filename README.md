@@ -46,17 +46,6 @@ cd wildwestdiner-menu
 - Simply open `index.html` in a web browser
 - For local development, use a local server (e.g., Live Server for VS Code)
 
-## Project Structure
-```
-wildwestdiner-menu/
-├── index.html          # Main HTML file
-├── images/            
-│   ├── landing-page.png
-│   ├── menu.png
-│   ├── alipay-image.jpg
-│   └── paynow-image.jpg
-└── README.md
-```
 
 ## Configuration
 The menu items and prices can be configured in the `menuItems` object within the JavaScript code:
