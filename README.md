@@ -1,4 +1,9 @@
 # WildWestDiner - Restaurant Website
+![image](https://github.com/user-attachments/assets/81ade308-c94c-4826-87d8-2da49b672af2)
+
+### Watch our short video! https://github.com/user-attachments/assets/dfa284ed-9fa4-43c0-920b-10cfbde8d612
+### Presentation Slides: [https://www.canva.com/design/DAGbYP58Ke8/7EaKF6VZRYcFXMdfPj6VEQ/view?utm_content=DAGbYP58Ke8&utm_campaign=designshare&utm_medium=link](https://www.canva.com/design/DAGc4p4uYqs/EPS-5lP_Y48c_Mx_iSOW-w/view?utm_content=DAGc4p4uYqs&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=hc7fd724779)
+
 ![image](https://github.com/user-attachments/assets/5be1a9b6-a179-4637-95e7-b5ebec40f810)
 
 
